@@ -10,11 +10,33 @@ use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
-    public function index()
-    {
-        $invoices = Invoice::with('processes')->latest()->paginate(10);
-        return view('invoices.index', compact('invoices'));
+    // Actualizar InvoiceController::index()
+public function index(Request $request)
+{
+    $query = Invoice::with('processes');
+
+    // Búsqueda por número
+    if ($request->filled('search')) {
+        $query->where('numero', 'like', '%' . $request->search . '%')
+              ->orWhere('cod_referencia', 'like', '%' . $request->search . '%');
     }
+
+    // Filtro por rango de fechas
+    if ($request->filled('fecha_desde')) {
+        $query->whereDate('fecha', '>=', $request->fecha_desde);
+    }
+
+    if ($request->filled('fecha_hasta')) {
+        $query->whereDate('fecha', '<=', $request->fecha_hasta);
+    }
+
+    $invoices = $query->latest()->paginate(10);
+    
+    // Mantener parámetros de búsqueda en la paginación
+    $invoices->appends($request->query());
+    
+    return view('invoices.index', compact('invoices'));
+}
 
     public function create()
     {
@@ -138,6 +160,7 @@ class InvoiceController extends Controller
             ->with('success', 'Factura actualizada exitosamente.');
     }
 
+    
     public function destroy(Invoice $invoice)
     {
         $invoice->delete();
