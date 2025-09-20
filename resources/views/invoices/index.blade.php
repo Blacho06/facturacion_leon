@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,12 +14,12 @@
             padding: 2rem 0;
             margin-bottom: 2rem;
         }
-        
+
         .company-logo {
             font-size: 3rem;
             margin-right: 1rem;
         }
-        
+
         .stats-card {
             background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             color: white;
@@ -26,19 +27,19 @@
             padding: 1.5rem;
             margin-bottom: 1rem;
         }
-        
+
         .invoice-card {
             border: 1px solid #dee2e6;
             border-radius: 8px;
             transition: all 0.3s ease;
             margin-bottom: 1rem;
         }
-        
+
         .invoice-card:hover {
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transform: translateY(-2px);
         }
-        
+
         .invoice-number {
             background: #e74c3c;
             color: white;
@@ -47,7 +48,7 @@
             font-weight: bold;
             display: inline-block;
         }
-        
+
         .total-badge {
             background: #27ae60;
             color: white;
@@ -55,26 +56,45 @@
             border-radius: 20px;
             font-weight: bold;
         }
-        
+
         .action-buttons .btn {
             margin-right: 0.5rem;
             margin-bottom: 0.5rem;
         }
-        
+
         .search-section {
             background: #f8f9fa;
             padding: 1.5rem;
             border-radius: 8px;
             margin-bottom: 2rem;
         }
+
         .imagenlogo {
             height: 100px;
             width: auto;
             margin-right: 15px;
             object-fit: contain;
         }
+
+        nav svg,
+        .pagination svg,
+        [aria-label*="pagination"] svg,
+        [aria-label*="Pagination"] svg {
+            width: 12px !important;
+            height: 12px !important;
+            max-width: 12px !important;
+            max-height: 12px !important;
+        }
+
+        .cursor-default.relative.inline-flex.items-center,
+        .ml-3.relative.inline-flex.items-center,
+        a.relative.inline-flex.items-center:first-child,
+        span.relative.inline-flex.items-center:last-child {
+            display: none !important;
+        }
     </style>
 </head>
+
 <body>
     <div class="header-section">
         <div class="container">
@@ -115,23 +135,28 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stats-card text-center" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
+                <div class="stats-card text-center"
+                    style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
                     <i class="fas fa-calendar fa-2x mb-2"></i>
                     <h3>{{ date('d/m/Y') }}</h3>
                     <p class="mb-0">Hoy</p>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stats-card text-center" style="background: linear-gradient(135deg, #27ae60 0%, #219a52 100%);">
+                <div class="stats-card text-center"
+                    style="background: linear-gradient(135deg, #27ae60 0%, #219a52 100%);">
                     <i class="fas fa-shoe-prints fa-2x mb-2"></i>
-                    <h3>{{ $invoices->sum(function($invoice) { return $invoice->total; }) }}</h3>
+                    <h3>{{ $invoices->sum(function ($invoice) {
+    return $invoice->total; }) }}</h3>
                     <p class="mb-0">Pares Totales</p>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stats-card text-center" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
+                <div class="stats-card text-center"
+                    style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
                     <i class="fas fa-cogs fa-2x mb-2"></i>
-                    <h3>{{ $invoices->sum(function($invoice) { return $invoice->processes->count(); }) }}</h3>
+                    <h3>{{ $invoices->sum(function ($invoice) {
+    return $invoice->processes->count(); }) }}</h3>
                     <p class="mb-0">Procesos</p>
                 </div>
             </div>
@@ -142,7 +167,8 @@
             <form method="GET" action="{{ route('invoices.index') }}">
                 <div class="row">
                     <div class="col-md-3">
-                        <input type="text" class="form-control" name="search" placeholder="Buscar por número..." value="{{ request('search') }}">
+                        <input type="text" class="form-control" name="search" placeholder="Buscar por número..."
+                            value="{{ request('search') }}">
                     </div>
                     <div class="col-md-3">
                         <input type="date" class="form-control" name="fecha_desde" value="{{ request('fecha_desde') }}">
@@ -194,19 +220,22 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="action-buttons text-end">
-                                        <a href="{{ route('invoices.show', $invoice->id) }}" class="btn btn-sm btn-outline-primary">
+                                        <a href="{{ route('invoices.show', $invoice->id) }}"
+                                            class="btn btn-sm btn-outline-primary">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="{{ route('invoices.edit', $invoice->id) }}" class="btn btn-sm btn-outline-warning">
+                                        <a href="{{ route('invoices.edit', $invoice->id) }}"
+                                            class="btn btn-sm btn-outline-warning">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <button onclick="confirmDelete({{ $invoice->id }})" class="btn btn-sm btn-outline-danger">
+                                        <button onclick="confirmDelete({{ $invoice->id }})"
+                                            class="btn btn-sm btn-outline-danger">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             @if($invoice->processes->count() > 0)
                                 <div class="row mt-3">
                                     <div class="col-12">
@@ -273,4 +302,5 @@
         }
     </script>
 </body>
+
 </html>
