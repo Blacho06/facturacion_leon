@@ -157,6 +157,12 @@
             text-align: center;
             background: #f8f9fa;
         }
+        .imagenlogo {
+            height: 100px;
+            width: auto;
+            margin-right: 15px;
+            object-fit: contain;
+        }
     </style>
 </head>
 <body>
@@ -164,7 +170,7 @@
         <!-- Header -->
         <div class="invoice-header">
             <div class="company-info">
-                <i class="fas fa-shoe-prints company-logo"></i>
+               <img src="{{ asset('images/logoleon.jpg') }}" alt="León Shoes Logo" class="imagenlogo">
                 <h1 class="company-name">LEÓN SHOES</h1>
                 <div class="ms-auto">
                     <div class="info-field" style="width: 120px;">

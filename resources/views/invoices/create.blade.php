@@ -42,6 +42,23 @@
             border-radius: 3px;
             cursor: pointer;
         }
+
+        .auto-number {
+            background: #e9ecef;
+            color: #495057;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+            border: 2px solid #28a745;
+        }
+
+        .imagenlogo {
+            height: 100px;
+            width: auto;
+            margin-right: 15px;
+            object-fit: contain;
+        }
+        
     </style>
 </head>
 <body>
@@ -52,7 +69,7 @@
                     <div class="row align-items-center">
                         <div class="col-md-3">
                             <div class="d-flex align-items-center">
-                                <i class="fas fa-shoe-prints fa-3x text-primary me-3"></i>
+                                <img src="{{ asset('images/logoleon.jpg') }}" alt="León Shoes Logo" class="imagenlogo">
                                 <div>
                                     <h3 class="mb-0 text-primary">LEÓN SHOES</h3>
                                 </div>
@@ -62,7 +79,10 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <label class="form-label fw-bold">No.</label>
-                                    <input type="text" class="form-control" id="header_numero" required>
+                                    <input type="text" class="form-control auto-number" value="{{ $nextNumber }}" readonly>
+                                    <small class="text-success">
+                                        <i class="fas fa-magic"></i> Número automático
+                                    </small>
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label fw-bold">FECHA</label>
@@ -91,7 +111,7 @@
                     @csrf
                     
                     <!-- Campos ocultos para copiar valores del header -->
-                    <input type="hidden" name="numero" id="hidden_numero">
+                    <!-- YA NO necesitamos campo hidden para numero porque es automático -->
                     <input type="hidden" name="fecha" id="hidden_fecha" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="cod_referencia" id="hidden_cod_referencia">
                     <input type="hidden" name="color" id="hidden_color">
@@ -114,33 +134,33 @@
                         </div>
                         <div class="card-body">
                             <div class="tallas-grid">
-                                <div><strong>21</strong><input type="number" class="form-control talla-input" name="tallas[21]" min="0" placeholder="0"></div>
-                                <div><strong>22</strong><input type="number" class="form-control talla-input" name="tallas[22]" min="0" placeholder="0"></div>
-                                <div><strong>23</strong><input type="number" class="form-control talla-input" name="tallas[23]" min="0" placeholder="0"></div>
-                                <div><strong>24</strong><input type="number" class="form-control talla-input" name="tallas[24]" min="0" placeholder="0"></div>
-                                <div><strong>25</strong><input type="number" class="form-control talla-input" name="tallas[25]" min="0" placeholder="0"></div>
-                                <div><strong>26</strong><input type="number" class="form-control talla-input" name="tallas[26]" min="0" placeholder="0"></div>
-                                <div><strong>27</strong><input type="number" class="form-control talla-input" name="tallas[27]" min="0" placeholder="0"></div>
-                                <div><strong>28</strong><input type="number" class="form-control talla-input" name="tallas[28]" min="0" placeholder="0"></div>
-                                <div><strong>29</strong><input type="number" class="form-control talla-input" name="tallas[29]" min="0" placeholder="0"></div>
+                                <div><strong>21</strong><input type="number" class="form-control talla-input" name="tallas[21]" min="0" value="0"></div>
+                                <div><strong>22</strong><input type="number" class="form-control talla-input" name="tallas[22]" min="0" value="0"></div>
+                                <div><strong>23</strong><input type="number" class="form-control talla-input" name="tallas[23]" min="0" value="0"></div>
+                                <div><strong>24</strong><input type="number" class="form-control talla-input" name="tallas[24]" min="0" value="0"></div>
+                                <div><strong>25</strong><input type="number" class="form-control talla-input" name="tallas[25]" min="0" value="0"></div>
+                                <div><strong>26</strong><input type="number" class="form-control talla-input" name="tallas[26]" min="0" value="0"></div>
+                                <div><strong>27</strong><input type="number" class="form-control talla-input" name="tallas[27]" min="0" value="0"></div>
+                                <div><strong>28</strong><input type="number" class="form-control talla-input" name="tallas[28]" min="0" value="0"></div>
+                                <div><strong>29</strong><input type="number" class="form-control talla-input" name="tallas[29]" min="0" value="0"></div>
                             </div>
                             <div class="tallas-grid">
-                                <div><strong>30</strong><input type="number" class="form-control talla-input" name="tallas[30]" min="0" placeholder="0"></div>
-                                <div><strong>31</strong><input type="number" class="form-control talla-input" name="tallas[31]" min="0" placeholder="0"></div>
-                                <div><strong>32</strong><input type="number" class="form-control talla-input" name="tallas[32]" min="0" placeholder="0"></div>
-                                <div><strong>33</strong><input type="number" class="form-control talla-input" name="tallas[33]" min="0" placeholder="0"></div>
-                                <div><strong>34</strong><input type="number" class="form-control talla-input" name="tallas[34]" min="0" placeholder="0"></div>
-                                <div><strong>35</strong><input type="number" class="form-control talla-input" name="tallas[35]" min="0" placeholder="0"></div>
-                                <div><strong>36</strong><input type="number" class="form-control talla-input" name="tallas[36]" min="0" placeholder="0"></div>
-                                <div><strong>37</strong><input type="number" class="form-control talla-input" name="tallas[37]" min="0" placeholder="0"></div>
-                                <div><strong>38</strong><input type="number" class="form-control talla-input" name="tallas[38]" min="0" placeholder="0"></div>
+                                <div><strong>30</strong><input type="number" class="form-control talla-input" name="tallas[30]" min="0" value="0"></div>
+                                <div><strong>31</strong><input type="number" class="form-control talla-input" name="tallas[31]" min="0" value="0"></div>
+                                <div><strong>32</strong><input type="number" class="form-control talla-input" name="tallas[32]" min="0" value="0"></div>
+                                <div><strong>33</strong><input type="number" class="form-control talla-input" name="tallas[33]" min="0" value="0"></div>
+                                <div><strong>34</strong><input type="number" class="form-control talla-input" name="tallas[34]" min="0" value="0"></div>
+                                <div><strong>35</strong><input type="number" class="form-control talla-input" name="tallas[35]" min="0" value="0"></div>
+                                <div><strong>36</strong><input type="number" class="form-control talla-input" name="tallas[36]" min="0" value="0"></div>
+                                <div><strong>37</strong><input type="number" class="form-control talla-input" name="tallas[37]" min="0" value="0"></div>
+                                <div><strong>38</strong><input type="number" class="form-control talla-input" name="tallas[38]" min="0" value="0"></div>
                             </div>
                             <div class="tallas-grid" style="grid-template-columns: repeat(6, 1fr);">
-                                <div><strong>39</strong><input type="number" class="form-control talla-input" name="tallas[39]" min="0" placeholder="0"></div>
-                                <div><strong>40</strong><input type="number" class="form-control talla-input" name="tallas[40]" min="0" placeholder="0"></div>
-                                <div><strong>41</strong><input type="number" class="form-control talla-input" name="tallas[41]" min="0" placeholder="0"></div>
-                                <div><strong>42</strong><input type="number" class="form-control talla-input" name="tallas[42]" min="0" placeholder="0"></div>
-                                <div><strong>43</strong><input type="number" class="form-control talla-input" name="tallas[43]" min="0" placeholder="0"></div>
+                                <div><strong>39</strong><input type="number" class="form-control talla-input" name="tallas[39]" min="0" value="0"></div>
+                                <div><strong>40</strong><input type="number" class="form-control talla-input" name="tallas[40]" min="0" value="0"></div>
+                                <div><strong>41</strong><input type="number" class="form-control talla-input" name="tallas[41]" min="0" value="0"></div>
+                                <div><strong>42</strong><input type="number" class="form-control talla-input" name="tallas[42]" min="0" value="0"></div>
+                                <div><strong>43</strong><input type="number" class="form-control talla-input" name="tallas[43]" min="0" value="0"></div>
                                 <div class="text-center">
                                     <strong>TOTAL</strong>
                                     <div id="total-display" class="fw-bold fs-4 text-primary">0</div>
@@ -153,6 +173,7 @@
                     <div class="card mb-4">
                         <div class="card-header bg-secondary text-white">
                             <h5 class="mb-0"><i class="fas fa-cogs me-2"></i>Procesos</h5>
+                            <small>Cada proceso recibirá automáticamente el número {{ $nextNumber }}</small>
                         </div>
                         <div class="card-body">
                             <div id="processes-container">
@@ -178,11 +199,11 @@
     <script>
         let processCount = 0;
         const processes = ['LIMPIADORA', 'MONTADA', 'GUARNECIDA', 'ESTAMPADO', 'PINTADA', 'CORTADA'];
+        const nextNumber = '{{ $nextNumber }}'; // Número que será asignado
 
         // Sincronizar campos del header con campos ocultos
         document.addEventListener('DOMContentLoaded', function() {
             const headerInputs = [
-                { header: 'header_numero', hidden: 'hidden_numero' },
                 { header: 'header_fecha', hidden: 'hidden_fecha' },
                 { header: 'header_cod_referencia', hidden: 'hidden_cod_referencia' },
                 { header: 'header_color', hidden: 'hidden_color' },
@@ -235,7 +256,9 @@
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">No.</label>
-                        <input type="text" class="form-control" name="processes[${processCount}][numero]" required>
+                        <input type="text" class="form-control auto-number" value="${nextNumber}" readonly>
+                        <input type="hidden" name="processes[${processCount}][numero]" value="${nextNumber}">
+                        <small class="text-success">Automático</small>
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">No. TAREA</label>

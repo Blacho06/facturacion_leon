@@ -51,6 +51,12 @@
             border-radius: 3px;
             cursor: pointer;
         }
+        .imagenlogo {
+            height: 100px;
+            width: auto;
+            margin-right: 15px;
+            object-fit: contain;
+        }
     </style>
 </head>
 <body>
@@ -61,7 +67,7 @@
                     <div class="row align-items-center">
                         <div class="col-md-3">
                             <div class="d-flex align-items-center">
-                                <i class="fas fa-shoe-prints fa-3x text-primary me-3"></i>
+                                <img src="{{ asset('images/logoleon.jpg') }}" alt="León Shoes Logo" class="imagenlogo">
                                 <div>
                                     <h3 class="mb-0 text-primary">LEÓN SHOES</h3>
                                     <small class="text-muted">Editando Factura</small>

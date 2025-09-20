@@ -14,7 +14,8 @@ class Invoice extends Model
         'fecha',
         'cod_referencia',
         'no_tarea',
-        'tallas'
+        'tallas',
+        'total' // Agregamos el campo total
     ];
 
     protected $casts = [
@@ -34,4 +35,13 @@ class Invoice extends Model
         }
         return 0;
     }
+
+    /**
+     * Calcular el total de pares a partir del array de tallas
+     */
+    public static function calculateTotal(array $tallas): int
+    {
+        return array_sum($tallas);
+    }
 }
+?>

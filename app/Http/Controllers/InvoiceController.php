@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\InvoiceProcess;
+use App\Models\InvoiceCounter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,13 +18,16 @@ class InvoiceController extends Controller
 
     public function create()
     {
-        return view('invoices.create');
+        // Obtener el próximo número de factura para mostrarlo
+        $nextNumber = InvoiceCounter::getCurrentNumber();
+        $nextNumber = str_pad((intval($nextNumber) + 1 > 100 ? 1 : intval($nextNumber) + 1), 3, '0', STR_PAD_LEFT);
+        
+        return view('invoices.create', compact('nextNumber'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'numero' => 'required|string|unique:invoices',
             'fecha' => 'required|date',
             'cod_referencia' => 'nullable|string',
             'no_tarea' => 'nullable|string',
@@ -38,12 +42,19 @@ class InvoiceController extends Controller
         ]);
 
         DB::transaction(function () use ($validated) {
+            // Obtener el siguiente número automáticamente
+            $invoiceNumber = InvoiceCounter::getNextNumber();
+
+            // 🔥 CAMBIO: Calcular el total de pares
+            $total = array_sum($validated['tallas']);
+
             $invoice = Invoice::create([
-                'numero' => $validated['numero'],
+                'numero' => $invoiceNumber,
                 'fecha' => $validated['fecha'],
                 'cod_referencia' => $validated['cod_referencia'],
                 'no_tarea' => $validated['no_tarea'],
                 'tallas' => $validated['tallas'],
+                'total' => $total, // 🔥 AGREGADO: Campo total calculado
             ]);
 
             if (isset($validated['processes'])) {
@@ -51,7 +62,7 @@ class InvoiceController extends Controller
                     InvoiceProcess::create([
                         'invoice_id' => $invoice->id,
                         'proceso' => $processData['proceso'],
-                        'numero' => $processData['numero'],
+                        'numero' => $invoiceNumber, // Usar el mismo número de la factura
                         'no_tarea' => $processData['no_tarea'] ?? null,
                         'ref' => $processData['ref'] ?? null,
                         'cant' => $processData['cant'] ?? null,
@@ -79,7 +90,6 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
         $validated = $request->validate([
-            'numero' => 'required|string|unique:invoices,numero,' . $invoice->id,
             'fecha' => 'required|date',
             'cod_referencia' => 'nullable|string',
             'no_tarea' => 'nullable|string',
@@ -94,24 +104,28 @@ class InvoiceController extends Controller
         ]);
 
         DB::transaction(function () use ($validated, $invoice) {
+            // 🔥 CAMBIO: Calcular el nuevo total
+            $total = array_sum($validated['tallas']);
+
+            // En la actualización NO cambiamos el número de factura
             $invoice->update([
-                'numero' => $validated['numero'],
                 'fecha' => $validated['fecha'],
                 'cod_referencia' => $validated['cod_referencia'],
                 'no_tarea' => $validated['no_tarea'],
                 'tallas' => $validated['tallas'],
+                'total' => $total, // 🔥 AGREGADO: Actualizar el total calculado
             ]);
 
             // Eliminar procesos existentes
             $invoice->processes()->delete();
 
-            // Crear nuevos procesos
+            // Crear nuevos procesos con el mismo número de la factura
             if (isset($validated['processes'])) {
                 foreach ($validated['processes'] as $processData) {
                     InvoiceProcess::create([
                         'invoice_id' => $invoice->id,
                         'proceso' => $processData['proceso'],
-                        'numero' => $processData['numero'],
+                        'numero' => $invoice->numero, // Mantener el número original
                         'no_tarea' => $processData['no_tarea'] ?? null,
                         'ref' => $processData['ref'] ?? null,
                         'cant' => $processData['cant'] ?? null,

@@ -67,6 +67,12 @@
             border-radius: 8px;
             margin-bottom: 2rem;
         }
+        .imagenlogo {
+            height: 100px;
+            width: auto;
+            margin-right: 15px;
+            object-fit: contain;
+        }
     </style>
 </head>
 <body>
@@ -75,7 +81,7 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-shoe-prints company-logo"></i>
+                        <img src="{{ asset('images/logoleon.jpg') }}" alt="León Shoes Logo" class="imagenlogo">
                         <div>
                             <h1 class="mb-0">LEÓN SHOES</h1>
                             <p class="mb-0">Sistema de Gestión de Facturas</p>
