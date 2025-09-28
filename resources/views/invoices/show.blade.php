@@ -163,11 +163,11 @@
             margin-right: 15px;
             object-fit: contain;
         }
+        
     </style>
 </head>
 <body>
     <div class="invoice-container">
-        <!-- Header -->
         <div class="invoice-header">
             <div class="company-info">
                <img src="{{ asset('images/logoleon.jpg') }}" alt="León Shoes Logo" class="imagenlogo">

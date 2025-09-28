@@ -56,7 +56,7 @@
             width: auto;
             margin-right: 15px;
             object-fit: contain;
-        }
+        }        
     </style>
 </head>
 <body>
