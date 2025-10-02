@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -76,16 +76,78 @@
             object-fit: contain;
         }
 
-        nav svg,
-        .pagination svg,
-        [aria-label*="pagination"] svg,
-        [aria-label*="Pagination"] svg {
-            width: 12px !important;
-            height: 12px !important;
-            max-width: 12px !important;
-            max-height: 12px !important;
+        /* Estilos mejorados para la paginación */
+        .pagination-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
+        .pagination-info {
+            color: #495057;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .pagination-info .font-medium {
+            color: #007bff;
+            font-weight: 600;
+        }
+
+        .pagination-nav {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .pagination-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #dee2e6;
+            background: white;
+            color: #6c757d;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pagination-btn:hover {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+        }
+
+        .pagination-btn.active {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+            font-weight: 600;
+        }
+
+        .pagination-btn.disabled {
+            background: #f8f9fa;
+            color: #adb5bd;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .pagination-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Ocultar elementos no deseados */
         .cursor-default.relative.inline-flex.items-center,
         .ml-3.relative.inline-flex.items-center,
         a.relative.inline-flex.items-center:first-child,
@@ -263,9 +325,64 @@
             @endforelse
         </div>
 
-        <!-- Paginación -->
-        <div class="d-flex justify-content-center mt-4">
-            {{ $invoices->links() }}
+        <!-- Paginación mejorada -->
+        <div class="pagination-container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="pagination-info">
+                        Mostrando
+                        <span class="font-medium">{{ $invoices->firstItem() }}</span>
+                        a
+                        <span class="font-medium">{{ $invoices->lastItem() }}</span>
+                        de
+                        <span class="font-medium">{{ $invoices->total() }}</span>
+                        resultados
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-end">
+                        <nav aria-label="Navegación de páginas">
+                            <div class="pagination-nav">
+                                @if ($invoices->onFirstPage())
+                                    <span class="pagination-btn disabled">
+                                        <svg fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </span>
+                                @else
+                                    <a href="{{ $invoices->previousPageUrl() }}" class="pagination-btn">
+                                        <svg fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </a>
+                                @endif
+
+                                @foreach ($invoices->getUrlRange(1, $invoices->lastPage()) as $page => $url)
+                                    @if ($page == $invoices->currentPage())
+                                        <span class="pagination-btn active">{{ $page }}</span>
+                                    @else
+                                        <a href="{{ $url }}" class="pagination-btn">{{ $page }}</a>
+                                    @endif
+                                @endforeach
+
+                                @if ($invoices->hasMorePages())
+                                    <a href="{{ $invoices->nextPageUrl() }}" class="pagination-btn">
+                                        <svg fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </a>
+                                @else
+                                    <span class="pagination-btn disabled">
+                                        <svg fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </span>
+                                @endif
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

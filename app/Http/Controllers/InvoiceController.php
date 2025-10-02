@@ -41,8 +41,8 @@ public function index(Request $request)
     public function create()
     {
         // Obtener el próximo número de factura para mostrarlo
-        $nextNumber = InvoiceCounter::getCurrentNumber();
-        $nextNumber = str_pad((intval($nextNumber) + 1 > 100 ? 1 : intval($nextNumber) + 1), 3, '0', STR_PAD_LEFT);
+        $current = InvoiceCounter::getCurrentNumber();
+        $nextNumber = str_pad(intval($current) + 1, 3, '0', STR_PAD_LEFT);
         
         return view('invoices.create', compact('nextNumber'));
     }

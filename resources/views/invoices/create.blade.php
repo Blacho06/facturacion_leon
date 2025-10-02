@@ -19,7 +19,7 @@
             display: grid;
             grid-template-columns: repeat(9, 1fr);
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 20px;        
         }
         
         .talla-input {
@@ -90,16 +90,26 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label fw-bold">COD. REFERENCIA</label>
-                                    <input type="text" class="form-control" id="header_cod_referencia">
+                                    <div class="input-group">
+                                        <select id="header_ref_select" class="form-select"></select>
+                                        <button type="button" class="btn btn-primary" id="btn_add_ref" title="Agregar referencia">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label fw-bold">COLOR</label>
-                                    <input type="text" class="form-control" id="header_color">
+                                    <div class="input-group">
+                                        <select id="header_color_select" class="form-select"></select>
+                                        <button type="button" class="btn btn-primary" id="btn_add_color" title="Agregar color">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col-md-4">
-                                    <label class="form-label fw-bold">No. TAREA</label>
+                                    <label class="form-label fw-bold">NOMBRE CLIENTE</label>
                                     <input type="text" class="form-control" id="header_no_tarea">
                                 </div>
                             </div>
@@ -205,8 +215,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             const headerInputs = [
                 { header: 'header_fecha', hidden: 'hidden_fecha' },
-                { header: 'header_cod_referencia', hidden: 'hidden_cod_referencia' },
-                { header: 'header_color', hidden: 'hidden_color' },
+                { header: 'header_ref_select', hidden: 'hidden_cod_referencia' },
+                { header: 'header_color_select', hidden: 'hidden_color' },
                 { header: 'header_no_tarea', hidden: 'hidden_no_tarea' }
             ];
 
@@ -214,13 +224,143 @@
                 const headerInput = document.getElementById(field.header);
                 const hiddenInput = document.getElementById(field.hidden);
                 
-                headerInput.addEventListener('input', function() {
+                const eventName = headerInput && headerInput.tagName === 'SELECT' ? 'change' : 'input';
+                headerInput.addEventListener(eventName, function() {
                     hiddenInput.value = this.value;
                 });
                 
                 // Sincronizar valor inicial
                 hiddenInput.value = headerInput.value;
             });
+
+            // Gestionar colores personalizados con localStorage
+            const STORAGE_KEY_COLORS = 'customColors';
+            const colorSelect = document.getElementById('header_color_select');
+            const addColorBtn = document.getElementById('btn_add_color');
+
+            function loadColors() {
+                try {
+                    const stored = JSON.parse(localStorage.getItem(STORAGE_KEY_COLORS) || '[]');
+                    if (Array.isArray(stored)) return stored;
+                    return [];
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function saveColors(colors) {
+                localStorage.setItem(STORAGE_KEY_COLORS, JSON.stringify(colors));
+            }
+
+            function renderColorOptions(selectedValue = '') {
+                const defaults = [];
+                const custom = loadColors();
+                const all = [...defaults, ...custom];
+                colorSelect.innerHTML = '';
+                // Placeholder
+                const optPlaceholder = document.createElement('option');
+                optPlaceholder.value = '';
+                optPlaceholder.textContent = 'Seleccione un color...';
+                colorSelect.appendChild(optPlaceholder);
+                // Options
+                all.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c;
+                    opt.textContent = c;
+                    colorSelect.appendChild(opt);
+                });
+                // Select
+                if (selectedValue) {
+                    colorSelect.value = selectedValue;
+                }
+                // Propagar al hidden
+                const hiddenColor = document.getElementById('hidden_color');
+                hiddenColor.value = colorSelect.value;
+            }
+
+            function addNewColor() {
+                const newColor = prompt('Ingrese el nuevo color:');
+                if (!newColor) return;
+                const color = newColor.trim();
+                if (!color) return;
+                const colors = loadColors();
+                if (!colors.includes(color)) {
+                    colors.push(color);
+                    colors.sort((a,b) => a.localeCompare(b));
+                    saveColors(colors);
+                }
+                renderColorOptions(color);
+                colorSelect.dispatchEvent(new Event('change'));
+            }
+
+            // Inicializar select de colores
+            renderColorOptions('');
+            colorSelect.addEventListener('change', () => {
+                document.getElementById('hidden_color').value = colorSelect.value;
+            });
+            addColorBtn.addEventListener('click', addNewColor);
+
+            // Gestionar referencias personalizadas con localStorage
+            const STORAGE_KEY_REFS = 'customRefs';
+            const refSelect = document.getElementById('header_ref_select');
+            const addRefBtn = document.getElementById('btn_add_ref');
+
+            function loadRefs() {
+                try {
+                    const stored = JSON.parse(localStorage.getItem(STORAGE_KEY_REFS) || '[]');
+                    if (Array.isArray(stored)) return stored;
+                    return [];
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function saveRefs(refs) {
+                localStorage.setItem(STORAGE_KEY_REFS, JSON.stringify(refs));
+            }
+
+            function renderRefOptions(selectedValue = '') {
+                const defaults = [];
+                const custom = loadRefs();
+                const all = [...defaults, ...custom];
+                refSelect.innerHTML = '';
+                const optPlaceholder = document.createElement('option');
+                optPlaceholder.value = '';
+                optPlaceholder.textContent = 'Seleccione una referencia...';
+                refSelect.appendChild(optPlaceholder);
+                all.forEach(r => {
+                    const opt = document.createElement('option');
+                    opt.value = r;
+                    opt.textContent = r;
+                    refSelect.appendChild(opt);
+                });
+                if (selectedValue) {
+                    refSelect.value = selectedValue;
+                }
+                document.getElementById('hidden_cod_referencia').value = refSelect.value;
+            }
+
+            function addNewRef() {
+                const newRef = prompt('Ingrese el nuevo código de referencia:');
+                if (!newRef) return;
+                const ref = newRef.trim();
+                if (!ref) return;
+                const refs = loadRefs();
+                if (!refs.includes(ref)) {
+                    refs.push(ref);
+                    refs.sort((a,b) => a.localeCompare(b));
+                    saveRefs(refs);
+                }
+                renderRefOptions(ref);
+                refSelect.dispatchEvent(new Event('change'));
+            }
+
+            // Inicializar select de referencias
+            renderRefOptions('');
+            refSelect.addEventListener('change', () => {
+                document.getElementById('hidden_cod_referencia').value = refSelect.value;
+            });
+            addRefBtn.addEventListener('click', addNewRef);
 
             // Calcular total automáticamente
             const tallaInputs = document.querySelectorAll('.talla-input');
@@ -259,10 +399,6 @@
                         <input type="text" class="form-control auto-number" value="${nextNumber}" readonly>
                         <input type="hidden" name="processes[${processCount}][numero]" value="${nextNumber}">
                         <small class="text-success">Automático</small>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">No. TAREA</label>
-                        <input type="text" class="form-control" name="processes[${processCount}][no_tarea]">
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">REF.</label>

@@ -27,17 +27,12 @@ class InvoiceCounter extends Model
                 // Si no existe, crear el primer registro
                 $counter = self::create([
                     'current_number' => 0,
-                    'max_number' => 100
+                    'max_number' => 0 // sin uso, se mantiene la columna por compatibilidad
                 ]);
             }
 
-            // Incrementar el número
+            // Incrementar el número sin límite superior
             $nextNumber = $counter->current_number + 1;
-            
-            // Si llega al máximo, reiniciar a 1
-            if ($nextNumber > $counter->max_number) {
-                $nextNumber = 1;
-            }
 
             // Actualizar el contador
             $counter->update(['current_number' => $nextNumber]);
