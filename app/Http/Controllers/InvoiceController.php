@@ -30,7 +30,7 @@ public function index(Request $request)
         $query->whereDate('fecha', '<=', $request->fecha_hasta);
     }
 
-    $invoices = $query->latest()->paginate(10);
+    $invoices = $query->latest()->paginate(20);
     
     // Mantener parámetros de búsqueda en la paginación
     $invoices->appends($request->query());
@@ -51,16 +51,31 @@ public function index(Request $request)
     {
         $validated = $request->validate([
             'fecha' => 'required|date',
-            'cod_referencia' => 'nullable|string',
-            'no_tarea' => 'nullable|string',
+            'cod_referencia' => 'required|string|max:255',
+            'color' => 'required|string|max:255',
+            'no_tarea' => 'required|string|max:255',
             'tallas' => 'required|array',
             'tallas.*' => 'integer|min:0',
-            'processes' => 'nullable|array',
-            'processes.*.proceso' => 'required|string',
-            'processes.*.numero' => 'required|string',
-            'processes.*.no_tarea' => 'nullable|string',
-            'processes.*.ref' => 'nullable|string',
-            'processes.*.cant' => 'nullable|string',
+            'precio_total' => 'required|numeric|min:0',
+        ], [
+            'fecha.required' => 'La fecha es obligatoria.',
+            'fecha.date' => 'La fecha debe tener un formato válido.',
+            'cod_referencia.required' => 'El código de referencia es obligatorio.',
+            'cod_referencia.string' => 'El código de referencia debe ser texto.',
+            'cod_referencia.max' => 'El código de referencia no puede exceder 255 caracteres.',
+            'color.required' => 'El color es obligatorio.',
+            'color.string' => 'El color debe ser texto.',
+            'color.max' => 'El color no puede exceder 255 caracteres.',
+            'no_tarea.required' => 'El nombre del cliente es obligatorio.',
+            'no_tarea.string' => 'El nombre del cliente debe ser texto.',
+            'no_tarea.max' => 'El nombre del cliente no puede exceder 255 caracteres.',
+            'tallas.required' => 'Debe especificar las cantidades de tallas.',
+            'tallas.array' => 'Las tallas deben ser un arreglo válido.',
+            'tallas.*.integer' => 'Cada talla debe ser un número entero.',
+            'tallas.*.min' => 'Las cantidades de tallas no pueden ser negativas.',
+            'precio_total.required' => 'El precio total es obligatorio.',
+            'precio_total.numeric' => 'El precio total debe ser un número válido.',
+            'precio_total.min' => 'El precio total no puede ser negativo.',
         ]);
 
         DB::transaction(function () use ($validated) {
@@ -74,9 +89,11 @@ public function index(Request $request)
                 'numero' => $invoiceNumber,
                 'fecha' => $validated['fecha'],
                 'cod_referencia' => $validated['cod_referencia'],
+                'color' => $validated['color'],
                 'no_tarea' => $validated['no_tarea'],
                 'tallas' => $validated['tallas'],
-                'total' => $total, // 🔥 AGREGADO: Campo total calculado
+                'total' => $total,
+                'precio_total' => $validated['precio_total'],
             ]);
 
             if (isset($validated['processes'])) {
@@ -113,16 +130,31 @@ public function index(Request $request)
     {
         $validated = $request->validate([
             'fecha' => 'required|date',
-            'cod_referencia' => 'nullable|string',
-            'no_tarea' => 'nullable|string',
+            'cod_referencia' => 'required|string|max:255',
+            'color' => 'required|string|max:255',
+            'no_tarea' => 'required|string|max:255',
             'tallas' => 'required|array',
             'tallas.*' => 'integer|min:0',
-            'processes' => 'nullable|array',
-            'processes.*.proceso' => 'required|string',
-            'processes.*.numero' => 'required|string',
-            'processes.*.no_tarea' => 'nullable|string',
-            'processes.*.ref' => 'nullable|string',
-            'processes.*.cant' => 'nullable|string',
+            'precio_total' => 'required|numeric|min:0',
+        ], [
+            'fecha.required' => 'La fecha es obligatoria.',
+            'fecha.date' => 'La fecha debe tener un formato válido.',
+            'cod_referencia.required' => 'El código de referencia es obligatorio.',
+            'cod_referencia.string' => 'El código de referencia debe ser texto.',
+            'cod_referencia.max' => 'El código de referencia no puede exceder 255 caracteres.',
+            'color.required' => 'El color es obligatorio.',
+            'color.string' => 'El color debe ser texto.',
+            'color.max' => 'El color no puede exceder 255 caracteres.',
+            'no_tarea.required' => 'El nombre del cliente es obligatorio.',
+            'no_tarea.string' => 'El nombre del cliente debe ser texto.',
+            'no_tarea.max' => 'El nombre del cliente no puede exceder 255 caracteres.',
+            'tallas.required' => 'Debe especificar las cantidades de tallas.',
+            'tallas.array' => 'Las tallas deben ser un arreglo válido.',
+            'tallas.*.integer' => 'Cada talla debe ser un número entero.',
+            'tallas.*.min' => 'Las cantidades de tallas no pueden ser negativas.',
+            'precio_total.required' => 'El precio total es obligatorio.',
+            'precio_total.numeric' => 'El precio total debe ser un número válido.',
+            'precio_total.min' => 'El precio total no puede ser negativo.',
         ]);
 
         DB::transaction(function () use ($validated, $invoice) {
@@ -133,9 +165,11 @@ public function index(Request $request)
             $invoice->update([
                 'fecha' => $validated['fecha'],
                 'cod_referencia' => $validated['cod_referencia'],
+                'color' => $validated['color'],
                 'no_tarea' => $validated['no_tarea'],
                 'tallas' => $validated['tallas'],
-                'total' => $total, // 🔥 AGREGADO: Actualizar el total calculado
+                'total' => $total,
+                'precio_total' => $validated['precio_total'],
             ]);
 
             // Eliminar procesos existentes

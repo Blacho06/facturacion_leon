@@ -13,9 +13,11 @@ class Invoice extends Model
         'numero',
         'fecha',
         'cod_referencia',
+        'color',
         'no_tarea',
         'tallas',
-        'total' // Agregamos el campo total
+        'total',
+        'precio_total'
     ];
 
     protected $casts = [

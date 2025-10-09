@@ -241,7 +241,7 @@
             padding: 15px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,123,255,0.3);
-            max-width: 250px;
+            max-width: 400px;
             margin: 0 auto;
         }
 
@@ -277,7 +277,7 @@
             font-weight: bold;
             text-align: center;
             color: #2c3e50;
-            width: 120px;
+            width: 180px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.2);
         }
 
@@ -323,6 +323,12 @@
                     <div class="info-label">COD. REFERENCIA</div>
                     <div class="info-value">{{ $invoice->cod_referencia ?? '' }}</div>
                 </div>
+                <div class="info-field">
+                    <div class="info-label">COLOR</div>
+                    <div class="info-value">{{ $invoice->color ?? '' }}</div>
+                </div>
+            </div>
+            <div class="header-info mt-2">
                 <div class="info-field">
                     <div class="info-label">NOMBRE CLIENTE</div>
                     <div class="info-value">{{ $invoice->no_tarea ?? '' }}</div>
@@ -378,7 +384,7 @@
                 <div class="price-label">PRECIO TOTAL:</div>
                 <div class="price-input-container">
                     <span class="currency-symbol">$</span>
-                    <input type="text" id="total-price" class="price-input" placeholder="0" maxlength="15">
+                    <input type="text" id="total-price" class="price-input" placeholder="0" maxlength="15" value="{{ $invoice->precio_total ? number_format($invoice->precio_total, 0, ',', '.') : '' }}">
                 </div>
             </div>
         </div>

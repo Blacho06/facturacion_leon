@@ -213,15 +213,6 @@
                     <p class="mb-0">Pares Totales</p>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="stats-card text-center"
-                    style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
-                    <i class="fas fa-cogs fa-2x mb-2"></i>
-                    <h3>{{ $invoices->sum(function ($invoice) {
-    return $invoice->processes->count(); }) }}</h3>
-                    <p class="mb-0">Procesos</p>
-                </div>
-            </div>
         </div>
 
         <!-- Buscador -->
@@ -257,30 +248,26 @@
                     <div class="invoice-card">
                         <div class="card-body">
                             <div class="row align-items-center">
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="invoice-number">
                                         #{{ $invoice->numero }}
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <strong>Fecha:</strong><br>
                                     {{ $invoice->fecha->format('d/m/Y') }}
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <strong>Referencia:</strong><br>
                                     {{ $invoice->cod_referencia ?? 'N/A' }}
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <strong>Total Pares:</strong><br>
                                     <span class="total-badge">{{ $invoice->total }}</span>
                                 </div>
-                                <div class="col-md-2">
-                                    <strong>Procesos:</strong><br>
-                                    <small class="text-muted">
-                                        {{ $invoice->processes->count() }} procesos
-                                    </small>
-                                </div>
-                                <div class="col-md-2">
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12">
                                     <div class="action-buttons text-end">
                                         <a href="{{ route('invoices.show', $invoice->id) }}"
                                             class="btn btn-sm btn-outline-primary">
@@ -298,16 +285,6 @@
                                 </div>
                             </div>
 
-                            @if($invoice->processes->count() > 0)
-                                <div class="row mt-3">
-                                    <div class="col-12">
-                                        <strong>Procesos activos:</strong>
-                                        @foreach($invoice->processes->take(6) as $process)
-                                            <span class="badge bg-secondary me-1">{{ $process->proceso }}</span>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
                         </div>
                     </div>
                 </div>

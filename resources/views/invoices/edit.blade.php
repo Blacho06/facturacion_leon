@@ -26,36 +26,57 @@
             text-align: center;
         }
         
-        .process-section {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            border-left: 4px solid #007bff;
-        }
-        
-        .btn-add-process {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        
-        .btn-remove-process {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-        }
         .imagenlogo {
             height: 100px;
             width: auto;
             margin-right: 15px;
             object-fit: contain;
+        }
+
+        /* Estilos para los modales personalizados */
+        .modal-content {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: none;
+        }
+
+        .modal-header {
+            border-radius: 15px 15px 0 0;
+            border-bottom: none;
+            padding: 20px 25px;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-footer {
+            border-top: none;
+            padding: 20px 25px;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .form-control-lg {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control-lg:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+        }
+
+        .form-control-lg.is-invalid {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220,53,69,0.25);
         }        
     </style>
 </head>
@@ -85,18 +106,22 @@
                                     <input type="date" class="form-control" id="header_fecha" value="{{ $invoice->fecha->format('Y-m-d') }}" required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="form-label fw-bold">COD. REFERENCIA</label>
+                                    <label class="form-label fw-bold">COD. REFERENCIA <span class="text-danger">*</span></label>
                                     <div class="input-group">
-                                        <select id="header_ref_select" class="form-select"></select>
+                                        <select id="header_ref_select" class="form-select" required>
+                                            <option value="">Seleccione una referencia...</option>
+                                        </select>
                                         <button type="button" class="btn btn-primary" id="btn_add_ref" title="Agregar referencia">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="form-label fw-bold">COLOR</label>
+                                    <label class="form-label fw-bold">COLOR <span class="text-danger">*</span></label>
                                     <div class="input-group">
-                                        <select id="header_color_select" class="form-select"></select>
+                                        <select id="header_color_select" class="form-select" required>
+                                            <option value="">Seleccione un color...</option>
+                                        </select>
                                         <button type="button" class="btn btn-primary" id="btn_add_color" title="Agregar color">
                                             <i class="fas fa-plus"></i>
                                         </button>
@@ -105,8 +130,8 @@
                             </div>
                             <div class="row mt-2">
                                 <div class="col-md-4">
-                                    <label class="form-label fw-bold">NOMBRE CLIENTE</label>
-                                    <input type="text" class="form-control" id="header_no_tarea" value="{{ $invoice->no_tarea }}">
+                                    <label class="form-label fw-bold">NOMBRE CLIENTE <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="header_no_tarea" value="{{ $invoice->no_tarea }}" required>
                                 </div>
                             </div>
                         </div>
@@ -123,6 +148,7 @@
                     <input type="hidden" name="cod_referencia" id="hidden_cod_referencia" value="{{ $invoice->cod_referencia }}">
                     <input type="hidden" name="color" id="hidden_color" value="{{ $invoice->color ?? '' }}">
                     <input type="hidden" name="no_tarea" id="hidden_no_tarea" value="{{ $invoice->no_tarea }}">
+                    <input type="hidden" name="precio_total" id="hidden_precio_total" value="{{ $invoice->precio_total ?? '' }}">
 
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -162,20 +188,24 @@
                         </div>
                     </div>
 
-                    <!-- Sección de Procesos -->
+                    <!-- Sección de Precio Total -->
                     <div class="card mb-4">
-                        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0"><i class="fas fa-cogs me-2"></i>Procesos</h5>
-                            <button type="button" class="btn-add-process" onclick="addProcess()">
-                                <i class="fas fa-plus me-1"></i>Agregar Proceso
-                            </button>
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0"><i class="fas fa-dollar-sign me-2"></i>Precio Total <span class="text-warning">*</span></h5>
                         </div>
                         <div class="card-body">
-                            <div id="processes-container">
-                                <!-- Los procesos existentes se cargarán aquí -->
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-lg">
+                                        <span class="input-group-text bg-success text-white fw-bold">$</span>
+                                        <input type="text" class="form-control" id="precio_total_input" placeholder="0" value="{{ $invoice->precio_total ? number_format($invoice->precio_total, 0, ',', '.') : '' }}" required>
+                                    </div>
+                                    <div class="form-text text-center">Ingrese el precio total de la factura</div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
 
                     <div class="text-center mb-4">
                         <button type="submit" class="btn btn-success btn-lg me-3">
@@ -190,12 +220,66 @@
         </div>
     </div>
 
+    <!-- Modal para agregar color -->
+    <div class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="colorModalLabel">
+                        <i class="fas fa-palette me-2"></i>Agregar Nuevo Color
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="newColorInput" class="form-label fw-bold">Nombre del Color:</label>
+                        <input type="text" class="form-control form-control-lg" id="newColorInput" placeholder="Ej: Rojo, Azul, Verde..." maxlength="50">
+                        <div class="form-text">Ingresa el nombre del nuevo color que deseas agregar.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" id="saveColorBtn">
+                        <i class="fas fa-save me-1"></i>Guardar Color
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agregar referencia -->
+    <div class="modal fade" id="refModal" tabindex="-1" aria-labelledby="refModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="refModalLabel">
+                        <i class="fas fa-barcode me-2"></i>Agregar Nueva Referencia
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="newRefInput" class="form-label fw-bold">Código de Referencia:</label>
+                        <input type="text" class="form-control form-control-lg" id="newRefInput" placeholder="Ej: REF001, MODELO-A..." maxlength="50">
+                        <div class="form-text">Ingresa el código de referencia que deseas agregar.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-success" id="saveRefBtn">
+                        <i class="fas fa-save me-1"></i>Guardar Referencia
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        let processCount = 0;
-        const processes = ['LIMPIADORA', 'MONTADA', 'GUARNECIDA', 'ESTAMPADO', 'PINTADA', 'CORTADA'];
-        const existingProcesses = @json($invoice->processes);
-
         // Sincronizar campos del header con campos ocultos
         document.addEventListener('DOMContentLoaded', function() {
             const headerInputs = [
@@ -203,7 +287,8 @@
                 { header: 'header_fecha', hidden: 'hidden_fecha' },
                 { header: 'header_ref_select', hidden: 'hidden_cod_referencia' },
                 { header: 'header_color_select', hidden: 'hidden_color' },
-                { header: 'header_no_tarea', hidden: 'hidden_no_tarea' }
+                { header: 'header_no_tarea', hidden: 'hidden_no_tarea' },
+                { header: 'precio_total_input', hidden: 'hidden_precio_total' }
             ];
 
             headerInputs.forEach(field => {
@@ -260,18 +345,52 @@
             }
 
             function addNewColor() {
-                const newColor = prompt('Ingrese el nuevo color:');
-                if (!newColor) return;
-                const color = newColor.trim();
-                if (!color) return;
-                const colors = loadColors();
-                if (!colors.includes(color)) {
-                    colors.push(color);
-                    colors.sort((a,b) => a.localeCompare(b));
-                    saveColors(colors);
-                }
-                renderColorOptions(color);
-                colorSelect.dispatchEvent(new Event('change'));
+                const colorModal = new bootstrap.Modal(document.getElementById('colorModal'));
+                const newColorInput = document.getElementById('newColorInput');
+                const saveColorBtn = document.getElementById('saveColorBtn');
+                
+                // Limpiar el input
+                newColorInput.value = '';
+                
+                // Mostrar el modal
+                colorModal.show();
+                
+                // Enfocar el input cuando se muestre el modal
+                document.getElementById('colorModal').addEventListener('shown.bs.modal', function() {
+                    newColorInput.focus();
+                });
+                
+                // Función para guardar el color
+                const saveColor = () => {
+                    const newColor = newColorInput.value.trim();
+                    if (!newColor) {
+                        newColorInput.classList.add('is-invalid');
+                        return;
+                    }
+                    
+                    const colors = loadColors();
+                    if (!colors.includes(newColor)) {
+                        colors.push(newColor);
+                        colors.sort((a,b) => a.localeCompare(b));
+                        saveColors(colors);
+                    }
+                    renderColorOptions(newColor);
+                    colorSelect.dispatchEvent(new Event('change'));
+                    colorModal.hide();
+                };
+                
+                // Event listeners
+                saveColorBtn.onclick = saveColor;
+                newColorInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        saveColor();
+                    }
+                });
+                
+                // Limpiar validación cuando el usuario escriba
+                newColorInput.addEventListener('input', function() {
+                    this.classList.remove('is-invalid');
+                });
             }
 
             // Inicializar select de colores
@@ -322,18 +441,52 @@
             }
 
             function addNewRef() {
-                const newRef = prompt('Ingrese el nuevo código de referencia:');
-                if (!newRef) return;
-                const ref = newRef.trim();
-                if (!ref) return;
-                const refs = loadRefs();
-                if (!refs.includes(ref)) {
-                    refs.push(ref);
-                    refs.sort((a,b) => a.localeCompare(b));
-                    saveRefs(refs);
-                }
-                renderRefOptions(ref);
-                refSelect.dispatchEvent(new Event('change'));
+                const refModal = new bootstrap.Modal(document.getElementById('refModal'));
+                const newRefInput = document.getElementById('newRefInput');
+                const saveRefBtn = document.getElementById('saveRefBtn');
+                
+                // Limpiar el input
+                newRefInput.value = '';
+                
+                // Mostrar el modal
+                refModal.show();
+                
+                // Enfocar el input cuando se muestre el modal
+                document.getElementById('refModal').addEventListener('shown.bs.modal', function() {
+                    newRefInput.focus();
+                });
+                
+                // Función para guardar la referencia
+                const saveRef = () => {
+                    const newRef = newRefInput.value.trim();
+                    if (!newRef) {
+                        newRefInput.classList.add('is-invalid');
+                        return;
+                    }
+                    
+                    const refs = loadRefs();
+                    if (!refs.includes(newRef)) {
+                        refs.push(newRef);
+                        refs.sort((a,b) => a.localeCompare(b));
+                        saveRefs(refs);
+                    }
+                    renderRefOptions(newRef);
+                    refSelect.dispatchEvent(new Event('change'));
+                    refModal.hide();
+                };
+                
+                // Event listeners
+                saveRefBtn.onclick = saveRef;
+                newRefInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        saveRef();
+                    }
+                });
+                
+                // Limpiar validación cuando el usuario escriba
+                newRefInput.addEventListener('input', function() {
+                    this.classList.remove('is-invalid');
+                });
             }
 
             // Inicializar select de referencias
@@ -349,16 +502,76 @@
                 input.addEventListener('input', calculateTotal);
             });
 
-            // Cargar procesos existentes
-            existingProcesses.forEach(process => {
-                addExistingProcess(process);
+            // Calcular total inicial
+            // Función para formatear números con separadores de miles
+            function formatNumberWithCommas(number) {
+                return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
+
+            // Función para limpiar el formato y obtener el número real
+            function cleanNumber(formattedNumber) {
+                return formattedNumber.replace(/\./g, '');
+            }
+
+            // Función mejorada para procesar el valor del input
+            function processPriceInput(value) {
+                // Remover todos los caracteres no numéricos
+                let cleanValue = value.replace(/[^\d]/g, '');
+                
+                // Si hay números, formatear
+                if (cleanValue) {
+                    return formatNumberWithCommas(cleanValue);
+                }
+                return '';
+            }
+
+            // Formateo automático del precio total
+            const precioTotalInput = document.getElementById('precio_total_input');
+            precioTotalInput.addEventListener('input', function(e) {
+                e.target.value = processPriceInput(e.target.value);
             });
 
-            // Agregar procesos disponibles que no están en uso
-            const usedProcesses = existingProcesses.map(p => p.proceso);
-            processes.forEach(proceso => {
-                if (!usedProcesses.includes(proceso)) {
-                    addProcess(proceso);
+            // Manejar cuando el usuario pega o escribe números con formato
+            precioTotalInput.addEventListener('paste', function(e) {
+                setTimeout(() => {
+                    e.target.value = processPriceInput(e.target.value);
+                }, 10);
+            });
+
+            // Al enviar el formulario, limpiar el formato para enviar solo números
+            precioTotalInput.addEventListener('blur', function(e) {
+                const hiddenInput = document.getElementById('hidden_precio_total');
+                hiddenInput.value = cleanNumber(e.target.value);
+            });
+
+            calculateTotal();
+
+            // Validar campos obligatorios antes de enviar
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                const requiredFields = [
+                    { id: 'header_fecha', name: 'Fecha' },
+                    { id: 'header_ref_select', name: 'Código de Referencia' },
+                    { id: 'header_color_select', name: 'Color' },
+                    { id: 'header_no_tarea', name: 'Nombre del Cliente' },
+                    { id: 'precio_total_input', name: 'Precio Total' }
+                ];
+
+                let hasErrors = false;
+                requiredFields.forEach(field => {
+                    const element = document.getElementById(field.id);
+                    if (!element.value || element.value.trim() === '') {
+                        element.classList.add('is-invalid');
+                        hasErrors = true;
+                    } else {
+                        element.classList.remove('is-invalid');
+                    }
+                });
+
+                if (hasErrors) {
+                    e.preventDefault();
+                    alert('Por favor, complete todos los campos obligatorios marcados con *');
+                    return false;
                 }
             });
         });
@@ -372,75 +585,6 @@
             document.getElementById('total-display').textContent = total;
         }
 
-        function addExistingProcess(process) {
-            const container = document.getElementById('processes-container');
-            const processDiv = document.createElement('div');
-            processDiv.className = 'process-section';
-            processDiv.innerHTML = `
-                <div class="row align-items-center">
-                    <div class="col-md-2">
-                        <label class="form-label fw-bold">${process.proceso}</label>
-                        <input type="hidden" name="processes[${processCount}][proceso]" value="${process.proceso}">
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">No.</label>
-                        <input type="text" class="form-control" name="processes[${processCount}][numero]" value="${process.numero}" required>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">REF.</label>
-                        <input type="text" class="form-control" name="processes[${processCount}][ref]" value="${process.ref || ''}">
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">CANT.</label>
-                        <input type="text" class="form-control" name="processes[${processCount}][cant]" value="${process.cant || ''}">
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn-remove-process" onclick="removeProcess(this)">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-            container.appendChild(processDiv);
-            processCount++;
-        }
-
-        function addProcess(proceso = '') {
-            const container = document.getElementById('processes-container');
-            const processDiv = document.createElement('div');
-            processDiv.className = 'process-section';
-            processDiv.innerHTML = `
-                <div class="row align-items-center">
-                    <div class="col-md-2">
-                        <label class="form-label fw-bold">${proceso || 'PROCESO'}</label>
-                        <input type="hidden" name="processes[${processCount}][proceso]" value="${proceso}">
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">No.</label>
-                        <input type="text" class="form-control" name="processes[${processCount}][numero]" required>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">REF.</label>
-                        <input type="text" class="form-control" name="processes[${processCount}][ref]">
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">CANT.</label>
-                        <input type="text" class="form-control" name="processes[${processCount}][cant]">
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn-remove-process" onclick="removeProcess(this)">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-            container.appendChild(processDiv);
-            processCount++;
-        }
-
-        function removeProcess(button) {
-            button.closest('.process-section').remove();
-        }
     </script>
 </body>
 </html>
