@@ -230,7 +230,7 @@
                         <input type="date" class="form-control" name="fecha_hasta" value="{{ request('fecha_hasta') }}">
                     </div>
                     <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary me-2">
+                        <button type="submit" class="btn btn-info me-2">
                             <i class="fas fa-search me-1"></i>Buscar
                         </button>
                         <a href="{{ route('invoices.index') }}" class="btn btn-secondary">
@@ -294,7 +294,7 @@
                         <i class="fas fa-inbox fa-5x text-muted mb-3"></i>
                         <h4>No hay facturas disponibles</h4>
                         <p class="text-muted">Crea tu primera factura para comenzar</p>
-                        <a href="{{ route('invoices.create') }}" class="btn btn-primary btn-lg">
+                        <a href="{{ route('invoices.create') }}" class="btn btn-info btn-lg">
                             <i class="fas fa-plus me-2"></i>Crear Primera Factura
                         </a>
                     </div>

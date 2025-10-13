@@ -612,7 +612,7 @@
             <button onclick="printInternalVersion()" class="btn btn-info btn-lg me-2">
                 <i class="fas fa-print me-2"></i>Imprimir Versión Interna
             </button>
-            <button onclick="printClientVersion()" class="btn btn-success btn-lg me-2">
+            <button onclick="printClientVersion()" class="btn btn-dark btn-lg me-2">
                 <i class="fas fa-file-export me-2"></i>Imprimir Versión Cliente
             </button>
             <a href="{{ route('invoices.index') }}" class="btn btn-secondary btn-lg">

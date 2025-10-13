@@ -111,7 +111,7 @@
                                 <div class="col-md-3">
                                     <label class="form-label fw-bold">No.</label>
                                     <input type="text" class="form-control auto-number" value="{{ $nextNumber }}" readonly>
-                                    <small class="text-success">
+                                    <small class="text-info">
                                         <i class="fas fa-magic"></i> Número automático
                                     </small>
                                 </div>
@@ -217,14 +217,14 @@
 
                     <!-- Sección de Precio Total -->
                     <div class="card mb-4">
-                        <div class="card-header bg-success text-white">
+                        <div class="card-header bg-dark text-white">
                             <h5 class="mb-0"><i class="fas fa-dollar-sign me-2"></i>Precio Total <span class="text-warning">*</span></h5>
                         </div>
                         <div class="card-body">
                             <div class="row justify-content-center">
                                 <div class="col-md-6">
                                     <div class="input-group input-group-lg">
-                                        <span class="input-group-text bg-success text-white fw-bold">$</span>
+                                        <span class="input-group-text bg-dark text-white fw-bold">$</span>
                                         <input type="text" class="form-control" id="precio_total_input" placeholder="0" required>
                                     </div>
                                     <div class="form-text text-center">Ingrese el precio total de la factura</div>
@@ -454,7 +454,7 @@
     <div class="modal fade" id="refModal" tabindex="-1" aria-labelledby="refModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header bg-success text-white">
+                <div class="modal-header bg-dark text-white">
                     <h5 class="modal-title" id="refModalLabel">
                         <i class="fas fa-barcode me-2"></i>Agregar Nueva Referencia
                     </h5>
@@ -471,7 +471,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="fas fa-times me-1"></i>Cancelar
                     </button>
-                    <button type="button" class="btn btn-success" id="saveRefBtn">
+                    <button type="button" class="btn btn-dark" id="saveRefBtn">
                         <i class="fas fa-save me-1"></i>Guardar Referencia
                     </button>
                 </div>
