@@ -17,26 +17,15 @@ class Invoice extends Model
         'no_tarea',
         'tallas',
         'total',
-        'precio_total'
+        'precio_total',
+        'processes'
     ];
 
     protected $casts = [
         'fecha' => 'date',
-        'tallas' => 'array'
+        'tallas' => 'array',
+        'processes' => 'array'
     ];
-
-    public function processes()
-    {
-        return $this->hasMany(InvoiceProcess::class);
-    }
-
-    public function getTotalAttribute()
-    {
-        if (is_array($this->tallas)) {
-            return array_sum($this->tallas);
-        }
-        return 0;
-    }
 
     /**
      * Calcular el total de pares a partir del array de tallas

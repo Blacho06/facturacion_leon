@@ -187,6 +187,132 @@
             padding: 20px;
         }
 
+        /* Layout 2x3 para pantalla */
+        .processes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(3, auto);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .process-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .process-header {
+            background-color: #f8f9fa;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1rem;
+            color: black;
+            text-align: center;
+        }
+
+        .process-info {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .process-field {
+            flex: 1;
+            text-align: center;
+        }
+
+        .process-label {
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        .process-value {
+            font-size: 1rem;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Layout específico para impresión - igual al formulario */
+        @media print {
+            /* Ocultar precio total en versión interna */
+            .price-section.internal-version {
+                display: none !important;
+            }
+            
+            .processes-section {
+                background-color: white !important;
+                border: 1px solid #ddd !important;
+                margin-top: 1rem !important;
+                padding: 1rem !important;
+            }
+            
+            .processes-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                grid-template-rows: repeat(3, auto) !important;
+                gap: 1rem !important;
+                margin-top: 1rem !important;
+            }
+            
+            .process-item {
+                border: 1px solid #ddd !important;
+                border-radius: 8px !important;
+                padding: 1rem !important;
+                background-color: white !important;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+            }
+            
+            .process-header {
+                background-color: #f8f9fa !important;
+                padding: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+                border-radius: 5px !important;
+                font-weight: bold !important;
+                font-size: 1rem !important;
+                color: black !important;
+                text-align: center !important;
+            }
+            
+            .process-info {
+                display: flex !important;
+                justify-content: space-between !important;
+                gap: 1rem !important;
+            }
+            
+            .process-field {
+                flex: 1 !important;
+                text-align: center !important;
+            }
+            
+            .process-label {
+                font-weight: bold !important;
+                font-size: 0.9rem !important;
+                margin-bottom: 0.3rem !important;
+                display: block !important;
+            }
+            
+            .process-value {
+                font-size: 1rem !important;
+                padding: 0.5rem !important;
+                border: 1px solid #ccc !important;
+                background-color: #f8f9fa !important;
+                border-radius: 5px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+        }
+
         .process-header {
             background: #2c3e50;
             color: white;
@@ -298,6 +424,51 @@
             object-fit: contain;
         }
         
+        .processes-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
+
+        .process-item {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .process-header {
+            background: #6c757d;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .process-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .process-field {
+            text-align: center;
+        }
+
+        .process-label {
+            font-weight: bold;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .process-value {
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -379,7 +550,7 @@
 
 
         <!-- Sección de Precio Total -->
-        <div class="price-section">
+        <div class="price-section" id="price-section">
             <div class="price-container">
                 <div class="price-label">PRECIO TOTAL:</div>
                 <div class="price-input-container">
@@ -389,13 +560,60 @@
             </div>
         </div>
 
+        <!-- Sección de Procesos Internos -->
+        @if($invoice->processes && count($invoice->processes) > 0)
+            <div class="processes-section">
+                <div class="section-title">
+                    <i class="fas fa-tasks me-2"></i>Procesos Internos
+                </div>
+                
+                <!-- Procesos en orden específico con layout 2x3 -->
+                @php
+                    $processOrder = [
+                        1 => 'LIMPIADORA',
+                        2 => 'MONTADA', 
+                        3 => 'GUARNECIDA',
+                        4 => 'ESTAMPADO',
+                        5 => 'PINTADA',
+                        6 => 'CORTADA'
+                    ];
+                @endphp
+                
+                <div class="processes-grid">
+                    @foreach($processOrder as $index => $processName)
+                        @if(isset($invoice->processes[$index]))
+                            @php $process = $invoice->processes[$index]; @endphp
+                            <div class="process-item">
+                                <div class="process-header">
+                                    {{ $processName }}
+                                </div>
+                                <div class="process-info">
+                                    <div class="process-field">
+                                        <div class="process-label">REF.:</div>
+                                        <div class="process-value">{{ $process['referencia'] ?? '-' }}</div>
+                                    </div>
+                                    <div class="process-field">
+                                        <div class="process-label">CANT.:</div>
+                                        <div class="process-value">{{ $process['cantidad'] ?? 0 }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
         <!-- Actions -->
         <div class="actions no-print">
             <a href="{{ route('invoices.edit', $invoice->id) }}" class="btn btn-warning btn-lg me-2">
                 <i class="fas fa-edit me-2"></i>Editar
             </a>
-            <button onclick="window.print()" class="btn btn-info btn-lg me-2">
-                <i class="fas fa-print me-2"></i>Imprimir
+            <button onclick="printInternalVersion()" class="btn btn-info btn-lg me-2">
+                <i class="fas fa-print me-2"></i>Imprimir Versión Interna
+            </button>
+            <button onclick="printClientVersion()" class="btn btn-success btn-lg me-2">
+                <i class="fas fa-file-export me-2"></i>Imprimir Versión Cliente
             </button>
             <a href="{{ route('invoices.index') }}" class="btn btn-secondary btn-lg">
                 <i class="fas fa-arrow-left me-2"></i>Volver
@@ -473,6 +691,58 @@
                 }
             });
         });
+
+        // Funciones para imprimir diferentes versiones
+        function printInternalVersion() {
+            // Agregar clase para ocultar precio total en versión interna
+            const priceSection = document.getElementById('price-section');
+            if (priceSection) {
+                priceSection.classList.add('internal-version');
+            }
+            
+            // Mostrar procesos para impresión interna
+            const processesSection = document.querySelector('.processes-section');
+            if (processesSection) {
+                processesSection.style.display = 'block';
+            }
+            
+            // Imprimir
+            window.print();
+            
+            // Restaurar estado después de imprimir
+            setTimeout(() => {
+                if (priceSection) {
+                    priceSection.classList.remove('internal-version');
+                }
+                if (processesSection) {
+                    processesSection.style.display = 'block';
+                }
+            }, 1000);
+        }
+
+        function printClientVersion() {
+            // Remover clase para mostrar precio total en versión cliente
+            const priceSection = document.getElementById('price-section');
+            if (priceSection) {
+                priceSection.classList.remove('internal-version');
+            }
+            
+            // Ocultar procesos para impresión cliente
+            const processesSection = document.querySelector('.processes-section');
+            if (processesSection) {
+                processesSection.style.display = 'none';
+            }
+            
+            // Imprimir
+            window.print();
+            
+            // Restaurar estado después de imprimir
+            setTimeout(() => {
+                if (processesSection) {
+                    processesSection.style.display = 'block';
+                }
+            }, 1000);
+        }
     </script>
 </body>
 </html>

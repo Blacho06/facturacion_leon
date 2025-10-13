@@ -180,33 +180,33 @@
                         </div>
                         <div class="card-body">
                             <div class="tallas-grid">
-                                <div><strong>21</strong><input type="number" class="form-control talla-input" name="tallas[21]" min="0"></div>
-                                <div><strong>22</strong><input type="number" class="form-control talla-input" name="tallas[22]" min="0"></div>
-                                <div><strong>23</strong><input type="number" class="form-control talla-input" name="tallas[23]" min="0"></div>
-                                <div><strong>24</strong><input type="number" class="form-control talla-input" name="tallas[24]" min="0"></div>
-                                <div><strong>25</strong><input type="number" class="form-control talla-input" name="tallas[25]" min="0"></div>
-                                <div><strong>26</strong><input type="number" class="form-control talla-input" name="tallas[26]" min="0"></div>
-                                <div><strong>27</strong><input type="number" class="form-control talla-input" name="tallas[27]" min="0"></div>
-                                <div><strong>28</strong><input type="number" class="form-control talla-input" name="tallas[28]" min="0"></div>
-                                <div><strong>29</strong><input type="number" class="form-control talla-input" name="tallas[29]" min="0"></div>
+                                <div><strong>21</strong><input type="number" class="form-control talla-input" name="tallas[21]" id="talla_21" min="0"></div>
+                                <div><strong>22</strong><input type="number" class="form-control talla-input" name="tallas[22]" id="talla_22" min="0"></div>
+                                <div><strong>23</strong><input type="number" class="form-control talla-input" name="tallas[23]" id="talla_23" min="0"></div>
+                                <div><strong>24</strong><input type="number" class="form-control talla-input" name="tallas[24]" id="talla_24" min="0"></div>
+                                <div><strong>25</strong><input type="number" class="form-control talla-input" name="tallas[25]" id="talla_25" min="0"></div>
+                                <div><strong>26</strong><input type="number" class="form-control talla-input" name="tallas[26]" id="talla_26" min="0"></div>
+                                <div><strong>27</strong><input type="number" class="form-control talla-input" name="tallas[27]" id="talla_27" min="0"></div>
+                                <div><strong>28</strong><input type="number" class="form-control talla-input" name="tallas[28]" id="talla_28" min="0"></div>
+                                <div><strong>29</strong><input type="number" class="form-control talla-input" name="tallas[29]" id="talla_29" min="0"></div>
                             </div>
                             <div class="tallas-grid">
-                                <div><strong>30</strong><input type="number" class="form-control talla-input" name="tallas[30]" min="0"></div>
-                                <div><strong>31</strong><input type="number" class="form-control talla-input" name="tallas[31]" min="0"></div>
-                                <div><strong>32</strong><input type="number" class="form-control talla-input" name="tallas[32]" min="0"></div>
-                                <div><strong>33</strong><input type="number" class="form-control talla-input" name="tallas[33]" min="0"></div>
-                                <div><strong>34</strong><input type="number" class="form-control talla-input" name="tallas[34]" min="0"></div>
-                                <div><strong>35</strong><input type="number" class="form-control talla-input" name="tallas[35]" min="0"></div>
-                                <div><strong>36</strong><input type="number" class="form-control talla-input" name="tallas[36]" min="0"></div>
-                                <div><strong>37</strong><input type="number" class="form-control talla-input" name="tallas[37]" min="0"></div>
-                                <div><strong>38</strong><input type="number" class="form-control talla-input" name="tallas[38]" min="0"></div>
+                                <div><strong>30</strong><input type="number" class="form-control talla-input" name="tallas[30]" id="talla_30" min="0"></div>
+                                <div><strong>31</strong><input type="number" class="form-control talla-input" name="tallas[31]" id="talla_31" min="0"></div>
+                                <div><strong>32</strong><input type="number" class="form-control talla-input" name="tallas[32]" id="talla_32" min="0"></div>
+                                <div><strong>33</strong><input type="number" class="form-control talla-input" name="tallas[33]" id="talla_33" min="0"></div>
+                                <div><strong>34</strong><input type="number" class="form-control talla-input" name="tallas[34]" id="talla_34" min="0"></div>
+                                <div><strong>35</strong><input type="number" class="form-control talla-input" name="tallas[35]" id="talla_35" min="0"></div>
+                                <div><strong>36</strong><input type="number" class="form-control talla-input" name="tallas[36]" id="talla_36" min="0"></div>
+                                <div><strong>37</strong><input type="number" class="form-control talla-input" name="tallas[37]" id="talla_37" min="0"></div>
+                                <div><strong>38</strong><input type="number" class="form-control talla-input" name="tallas[38]" id="talla_38" min="0"></div>
                             </div>
                             <div class="tallas-grid" style="grid-template-columns: repeat(6, 1fr);">
-                                <div><strong>39</strong><input type="number" class="form-control talla-input" name="tallas[39]" min="0"></div>
-                                <div><strong>40</strong><input type="number" class="form-control talla-input" name="tallas[40]" min="0"></div>
-                                <div><strong>41</strong><input type="number" class="form-control talla-input" name="tallas[41]" min="0"></div>
-                                <div><strong>42</strong><input type="number" class="form-control talla-input" name="tallas[42]" min="0"></div>
-                                <div><strong>43</strong><input type="number" class="form-control talla-input" name="tallas[43]" min="0"></div>
+                                <div><strong>39</strong><input type="number" class="form-control talla-input" name="tallas[39]" id="talla_39" min="0"></div>
+                                <div><strong>40</strong><input type="number" class="form-control talla-input" name="tallas[40]" id="talla_40" min="0"></div>
+                                <div><strong>41</strong><input type="number" class="form-control talla-input" name="tallas[41]" id="talla_41" min="0"></div>
+                                <div><strong>42</strong><input type="number" class="form-control talla-input" name="tallas[42]" id="talla_42" min="0"></div>
+                                <div><strong>43</strong><input type="number" class="form-control talla-input" name="tallas[43]" id="talla_43" min="0"></div>
                                 <div class="text-center">
                                     <strong>TOTAL</strong>
                                     <div id="total-display" class="fw-bold fs-4 text-primary">0</div>
@@ -228,6 +228,181 @@
                                         <input type="text" class="form-control" id="precio_total_input" placeholder="0" required>
                                     </div>
                                     <div class="form-text text-center">Ingrese el precio total de la factura</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección de Procesos Internos -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Procesos Internos</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted mb-3">Cada proceso recibirá automáticamente el número de la factura</p>
+                            
+                            <!-- Procesos estáticos -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="process-item">
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <strong>LIMPIADORA</strong>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">REF.:</label>
+                                                            <input type="text" class="form-control" name="processes[1][referencia]" placeholder="Auto-completar" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">CANT.:</label>
+                                                            <input type="number" class="form-control" name="processes[1][cantidad]" min="0" value="0" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="processes[1][proceso_nombre]" value="LIMPIADORA">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="process-item">
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <strong>MONTADA</strong>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">REF.:</label>
+                                                            <input type="text" class="form-control" name="processes[2][referencia]" placeholder="Auto-completar" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">CANT.:</label>
+                                                            <input type="number" class="form-control" name="processes[2][cantidad]" min="0" value="0" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="processes[2][proceso_nombre]" value="MONTADA">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="process-item">
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <strong>GUARNECIDA</strong>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">REF.:</label>
+                                                            <input type="text" class="form-control" name="processes[3][referencia]" placeholder="Auto-completar" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">CANT.:</label>
+                                                            <input type="number" class="form-control" name="processes[3][cantidad]" min="0" value="0" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="processes[3][proceso_nombre]" value="GUARNECIDA">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="process-item">
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <strong>ESTAMPADO</strong>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">REF.:</label>
+                                                            <input type="text" class="form-control" name="processes[4][referencia]" placeholder="Auto-completar" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">CANT.:</label>
+                                                            <input type="number" class="form-control" name="processes[4][cantidad]" min="0" value="0" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="processes[4][proceso_nombre]" value="ESTAMPADO">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="process-item">
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <strong>PINTADA</strong>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">REF.:</label>
+                                                            <input type="text" class="form-control" name="processes[5][referencia]" placeholder="Auto-completar" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">CANT.:</label>
+                                                            <input type="number" class="form-control" name="processes[5][cantidad]" min="0" value="0" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="processes[5][proceso_nombre]" value="PINTADA">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="process-item">
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <strong>CORTADA</strong>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">REF.:</label>
+                                                            <input type="text" class="form-control" name="processes[6][referencia]" placeholder="Auto-completar" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">CANT.:</label>
+                                                            <input type="number" class="form-control" name="processes[6][cantidad]" min="0" value="0" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="processes[6][proceso_nombre]" value="CORTADA">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -305,6 +480,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/invoice-processes.js') }}"></script>
     <script>
         const nextNumber = '{{ $nextNumber }}'; // Número que será asignado
 
@@ -400,14 +576,14 @@
                         return;
                     }
                     
-                    const colors = loadColors();
+                const colors = loadColors();
                     if (!colors.includes(newColor)) {
                         colors.push(newColor);
-                        colors.sort((a,b) => a.localeCompare(b));
-                        saveColors(colors);
-                    }
+                    colors.sort((a,b) => a.localeCompare(b));
+                    saveColors(colors);
+                }
                     renderColorOptions(newColor);
-                    colorSelect.dispatchEvent(new Event('change'));
+                colorSelect.dispatchEvent(new Event('change'));
                     colorModal.hide();
                 };
                 
@@ -496,14 +672,14 @@
                         return;
                     }
                     
-                    const refs = loadRefs();
+                const refs = loadRefs();
                     if (!refs.includes(newRef)) {
                         refs.push(newRef);
-                        refs.sort((a,b) => a.localeCompare(b));
-                        saveRefs(refs);
-                    }
+                    refs.sort((a,b) => a.localeCompare(b));
+                    saveRefs(refs);
+                }
                     renderRefOptions(newRef);
-                    refSelect.dispatchEvent(new Event('change'));
+                refSelect.dispatchEvent(new Event('change'));
                     refModal.hide();
                 };
                 
@@ -577,6 +753,8 @@
             });
 
             calculateTotal();
+
+            // El JavaScript para procesos se carga desde invoice-processes.js
 
             // Asegurar que campos vacíos se envíen como 0 y validar campos obligatorios
             const form = document.querySelector('form');

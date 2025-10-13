@@ -21,5 +21,4 @@ Route::resource('invoices', InvoiceController::class)->names([
 // Ruta adicional para imprimir factura (opcional)
 Route::get('invoices/{invoice}/print', [InvoiceController::class, 'print'])->name('invoices.print');
 
-
 ?>

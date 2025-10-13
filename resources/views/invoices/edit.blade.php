@@ -168,17 +168,17 @@
                         <div class="card-body">
                             <div class="tallas-grid">
                                 @for($talla = 21; $talla <= 29; $talla++)
-                                    <div><strong>{{ $talla }}</strong><input type="number" class="form-control talla-input" name="tallas[{{ $talla }}]" min="0" value="{{ $invoice->tallas[$talla] ?? 0 }}"></div>
+                                    <div><strong>{{ $talla }}</strong><input type="number" class="form-control talla-input" name="tallas[{{ $talla }}]" id="talla_{{ $talla }}" min="0" value="{{ $invoice->tallas[$talla] ?? 0 }}"></div>
                                 @endfor
                             </div>
                             <div class="tallas-grid">
                                 @for($talla = 30; $talla <= 38; $talla++)
-                                    <div><strong>{{ $talla }}</strong><input type="number" class="form-control talla-input" name="tallas[{{ $talla }}]" min="0" value="{{ $invoice->tallas[$talla] ?? 0 }}"></div>
+                                    <div><strong>{{ $talla }}</strong><input type="number" class="form-control talla-input" name="tallas[{{ $talla }}]" id="talla_{{ $talla }}" min="0" value="{{ $invoice->tallas[$talla] ?? 0 }}"></div>
                                 @endfor
                             </div>
                             <div class="tallas-grid" style="grid-template-columns: repeat(6, 1fr);">
                                 @for($talla = 39; $talla <= 43; $talla++)
-                                    <div><strong>{{ $talla }}</strong><input type="number" class="form-control talla-input" name="tallas[{{ $talla }}]" min="0" value="{{ $invoice->tallas[$talla] ?? 0 }}"></div>
+                                    <div><strong>{{ $talla }}</strong><input type="number" class="form-control talla-input" name="tallas[{{ $talla }}]" id="talla_{{ $talla }}" min="0" value="{{ $invoice->tallas[$talla] ?? 0 }}"></div>
                                 @endfor
                                 <div class="text-center">
                                     <strong>TOTAL</strong>
@@ -206,6 +206,184 @@
                         </div>
                     </div>
 
+                    <!-- Sección de Procesos Internos -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Procesos Internos</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted mb-3">Cada proceso recibirá automáticamente el número de la factura</p>
+                            
+                            <!-- Procesos estáticos -->
+                            <div class="row">
+                                @php
+                                    $processes = $invoice->processes ?? [];
+                                @endphp
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="process-item">
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <strong>LIMPIADORA</strong>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">REF.:</label>
+                                                            <input type="text" class="form-control" name="processes[1][referencia]" value="{{ $processes[1]['referencia'] ?? $invoice->cod_referencia }}" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">CANT.:</label>
+                                                            <input type="number" class="form-control" name="processes[1][cantidad]" min="0" value="{{ $processes[1]['cantidad'] ?? 0 }}" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="processes[1][proceso_nombre]" value="LIMPIADORA">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="process-item">
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <strong>MONTADA</strong>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">REF.:</label>
+                                                            <input type="text" class="form-control" name="processes[2][referencia]" value="{{ $processes[2]['referencia'] ?? $invoice->cod_referencia }}" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">CANT.:</label>
+                                                            <input type="number" class="form-control" name="processes[2][cantidad]" min="0" value="{{ $processes[2]['cantidad'] ?? 0 }}" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="processes[2][proceso_nombre]" value="MONTADA">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="process-item">
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <strong>GUARNECIDA</strong>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">REF.:</label>
+                                                            <input type="text" class="form-control" name="processes[3][referencia]" value="{{ $processes[3]['referencia'] ?? $invoice->cod_referencia }}" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">CANT.:</label>
+                                                            <input type="number" class="form-control" name="processes[3][cantidad]" min="0" value="{{ $processes[3]['cantidad'] ?? 0 }}" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="processes[3][proceso_nombre]" value="GUARNECIDA">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="process-item">
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <strong>ESTAMPADO</strong>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">REF.:</label>
+                                                            <input type="text" class="form-control" name="processes[4][referencia]" value="{{ $processes[4]['referencia'] ?? $invoice->cod_referencia }}" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">CANT.:</label>
+                                                            <input type="number" class="form-control" name="processes[4][cantidad]" min="0" value="{{ $processes[4]['cantidad'] ?? 0 }}" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="processes[4][proceso_nombre]" value="ESTAMPADO">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="process-item">
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <strong>PINTADA</strong>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">REF.:</label>
+                                                            <input type="text" class="form-control" name="processes[5][referencia]" value="{{ $processes[5]['referencia'] ?? $invoice->cod_referencia }}" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">CANT.:</label>
+                                                            <input type="number" class="form-control" name="processes[5][cantidad]" min="0" value="{{ $processes[5]['cantidad'] ?? 0 }}" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="processes[5][proceso_nombre]" value="PINTADA">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="process-item">
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <strong>CORTADA</strong>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">REF.:</label>
+                                                            <input type="text" class="form-control" name="processes[6][referencia]" value="{{ $processes[6]['referencia'] ?? $invoice->cod_referencia }}" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">CANT.:</label>
+                                                            <input type="number" class="form-control" name="processes[6][cantidad]" min="0" value="{{ $processes[6]['cantidad'] ?? 0 }}" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="processes[6][proceso_nombre]" value="CORTADA">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="text-center mb-4">
                         <button type="submit" class="btn btn-success btn-lg me-3">
@@ -279,6 +457,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/invoice-processes.js') }}"></script>
     <script>
         // Sincronizar campos del header con campos ocultos
         document.addEventListener('DOMContentLoaded', function() {
@@ -368,14 +547,14 @@
                         return;
                     }
                     
-                    const colors = loadColors();
+                const colors = loadColors();
                     if (!colors.includes(newColor)) {
                         colors.push(newColor);
-                        colors.sort((a,b) => a.localeCompare(b));
-                        saveColors(colors);
-                    }
+                    colors.sort((a,b) => a.localeCompare(b));
+                    saveColors(colors);
+                }
                     renderColorOptions(newColor);
-                    colorSelect.dispatchEvent(new Event('change'));
+                colorSelect.dispatchEvent(new Event('change'));
                     colorModal.hide();
                 };
                 
@@ -464,14 +643,14 @@
                         return;
                     }
                     
-                    const refs = loadRefs();
+                const refs = loadRefs();
                     if (!refs.includes(newRef)) {
                         refs.push(newRef);
-                        refs.sort((a,b) => a.localeCompare(b));
-                        saveRefs(refs);
-                    }
+                    refs.sort((a,b) => a.localeCompare(b));
+                    saveRefs(refs);
+                }
                     renderRefOptions(newRef);
-                    refSelect.dispatchEvent(new Event('change'));
+                refSelect.dispatchEvent(new Event('change'));
                     refModal.hide();
                 };
                 
@@ -545,6 +724,8 @@
             });
 
             calculateTotal();
+
+            // El JavaScript para procesos se carga desde invoice-processes.js
 
             // Validar campos obligatorios antes de enviar
             const form = document.querySelector('form');
