@@ -99,7 +99,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold">No.</label>
-                                    <input type="text" class="form-control" id="header_numero" value="{{ $invoice->numero }}" required>
+                                    <input type="text" class="form-control" id="header_numero" value="{{ $invoice->numero }}" readonly>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold">FECHA</label>
@@ -241,6 +241,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">FACTURA</label>
+                                                            <input type="text" class="form-control" value="{{ $invoice->numero }}" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <input type="hidden" name="processes[1][proceso_nombre]" value="LIMPIADORA">
                                             </div>
                                         </div>
@@ -265,6 +273,14 @@
                                                         <div class="mb-3">
                                                             <label class="form-label fw-bold">CANT.:</label>
                                                             <input type="number" class="form-control" name="processes[2][cantidad]" min="0" value="{{ $processes[2]['cantidad'] ?? 0 }}" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">FACTURA</label>
+                                                            <input type="text" class="form-control" value="{{ $invoice->numero }}" readonly style="background-color: #f8f9fa;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -295,6 +311,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">FACTURA</label>
+                                                            <input type="text" class="form-control" value="{{ $invoice->numero }}" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <input type="hidden" name="processes[3][proceso_nombre]" value="GUARNECIDA">
                                             </div>
                                         </div>
@@ -319,6 +343,14 @@
                                                         <div class="mb-3">
                                                             <label class="form-label fw-bold">CANT.:</label>
                                                             <input type="number" class="form-control" name="processes[4][cantidad]" min="0" value="{{ $processes[4]['cantidad'] ?? 0 }}" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">FACTURA</label>
+                                                            <input type="text" class="form-control" value="{{ $invoice->numero }}" readonly style="background-color: #f8f9fa;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -349,6 +381,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">FACTURA</label>
+                                                            <input type="text" class="form-control" value="{{ $invoice->numero }}" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <input type="hidden" name="processes[5][proceso_nombre]" value="PINTADA">
                                             </div>
                                         </div>
@@ -373,6 +413,14 @@
                                                         <div class="mb-3">
                                                             <label class="form-label fw-bold">CANT.:</label>
                                                             <input type="number" class="form-control" name="processes[6][cantidad]" min="0" value="{{ $processes[6]['cantidad'] ?? 0 }}" readonly style="background-color: #f8f9fa;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">FACTURA</label>
+                                                            <input type="text" class="form-control" value="{{ $invoice->numero }}" readonly style="background-color: #f8f9fa;">
                                                         </div>
                                                     </div>
                                                 </div>

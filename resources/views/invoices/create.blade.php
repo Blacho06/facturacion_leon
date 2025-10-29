@@ -89,6 +89,113 @@
             box-shadow: 0 0 0 0.2rem rgba(220,53,69,0.25);
         }
 
+        /* Estilos mejorados para validación */
+        .alert-validation {
+            border-radius: 10px;
+            border-left: 4px solid #dc3545;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: slideInDown 0.3s ease;
+        }
+
+        .alert-validation .alert-heading {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .invalid-feedback {
+            display: block;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+            color: #dc3545;
+            font-weight: 500;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .form-control.is-invalid,
+        .form-select.is-invalid {
+            border-color: #dc3545;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast-custom {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-left: 4px solid #dc3545;
+            animation: slideInRight 0.3s ease;
+            min-width: 300px;
+        }
+
+        .toast-custom.success {
+            border-left-color: #28a745;
+        }
+
+        .toast-custom.warning {
+            border-left-color: #ffc107;
+        }
+
+        .toast-custom.info {
+            border-left-color: #17a2b8;
+        }
+
+        .toast-header-custom {
+            background-color: transparent;
+            border-bottom: 1px solid #dee2e6;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .toast-body-custom {
+            padding: 16px;
+            color: #495057;
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
        
     </style>
 </head>
@@ -129,6 +236,14 @@
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
+                                    <div class="invalid-feedback" id="header_ref_select_error" style="display: none;">
+                                        Por favor, seleccione una referencia.
+                                    </div>
+                                    <div class="mt-1">
+                                        <button type="button" class="btn btn-danger btn-sm" id="btn_delete_ref" title="Eliminar referencia seleccionada" style="display: none;">
+                                            <i class="fas fa-trash-alt me-1"></i>Eliminar referencia
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label fw-bold">COLOR <span class="text-danger">*</span></label>
@@ -140,12 +255,23 @@
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
+                                    <div class="invalid-feedback" id="header_color_select_error" style="display: none;">
+                                        Por favor, seleccione un color.
+                                    </div>
+                                    <div class="mt-1">
+                                        <button type="button" class="btn btn-danger btn-sm" id="btn_delete_color" title="Eliminar color seleccionado" style="display: none;">
+                                            <i class="fas fa-trash-alt me-1"></i>Eliminar color
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold">NOMBRE CLIENTE <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="header_no_tarea" required>
+                                    <div class="invalid-feedback" id="header_no_tarea_error" style="display: none;">
+                                        Por favor, ingrese el nombre del cliente.
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -164,8 +290,13 @@
                     <input type="hidden" name="precio_total" id="hidden_precio_total">
 
                     @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="mb-0">
+                        <div class="alert alert-danger alert-validation mb-4">
+                            <div class="alert-heading">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span>Errores de Validación</span>
+                            </div>
+                            <hr>
+                            <ul class="mb-0 ps-3">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
@@ -227,6 +358,9 @@
                                         <span class="input-group-text bg-dark text-white fw-bold">$</span>
                                         <input type="text" class="form-control" id="precio_total_input" placeholder="0" required>
                                     </div>
+                                    <div class="invalid-feedback text-center" id="precio_total_input_error" style="display: none;">
+                                        Por favor, ingrese el precio total de la factura.
+                                    </div>
                                     <div class="form-text text-center">Ingrese el precio total de la factura</div>
                                 </div>
                             </div>
@@ -246,8 +380,9 @@
                                 <div class="col-md-6 mb-3">
                                     <div class="process-item">
                                         <div class="card">
-                                            <div class="card-header bg-light">
+                                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                                 <strong>LIMPIADORA</strong>
+                                                <span class="badge bg-secondary">FACTURA: {{ $nextNumber }}</span>
                                             </div>
                                             <div class="card-body">
                                                 <div class="row">
@@ -273,8 +408,9 @@
                                 <div class="col-md-6 mb-3">
                                     <div class="process-item">
                                         <div class="card">
-                                            <div class="card-header bg-light">
+                                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                                 <strong>MONTADA</strong>
+                                                <span class="badge bg-secondary">FACTURA: {{ $nextNumber }}</span>
                                             </div>
                                             <div class="card-body">
                                                 <div class="row">
@@ -300,8 +436,9 @@
                                 <div class="col-md-6 mb-3">
                                     <div class="process-item">
                                         <div class="card">
-                                            <div class="card-header bg-light">
+                                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                                 <strong>GUARNECIDA</strong>
+                                                <span class="badge bg-secondary">FACTURA: {{ $nextNumber }}</span>
                                             </div>
                                             <div class="card-body">
                                                 <div class="row">
@@ -327,8 +464,9 @@
                                 <div class="col-md-6 mb-3">
                                     <div class="process-item">
                                         <div class="card">
-                                            <div class="card-header bg-light">
+                                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                                 <strong>ESTAMPADO</strong>
+                                                <span class="badge bg-secondary">FACTURA: {{ $nextNumber }}</span>
                                             </div>
                                             <div class="card-body">
                                                 <div class="row">
@@ -354,8 +492,9 @@
                                 <div class="col-md-6 mb-3">
                                     <div class="process-item">
                                         <div class="card">
-                                            <div class="card-header bg-light">
+                                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                                 <strong>PINTADA</strong>
+                                                <span class="badge bg-secondary">FACTURA: {{ $nextNumber }}</span>
                                             </div>
                                             <div class="card-body">
                                                 <div class="row">
@@ -381,8 +520,9 @@
                                 <div class="col-md-6 mb-3">
                                     <div class="process-item">
                                         <div class="card">
-                                            <div class="card-header bg-light">
+                                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                                 <strong>CORTADA</strong>
+                                                <span class="badge bg-secondary">FACTURA: {{ $nextNumber }}</span>
                                             </div>
                                             <div class="card-body">
                                                 <div class="row">
@@ -420,6 +560,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Contenedor para notificaciones toast -->
+    <div class="toast-container" id="toastContainer"></div>
 
     <!-- Modal para agregar color -->
     <div class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel" aria-hidden="true">
@@ -479,10 +622,109 @@
         </div>
     </div>
 
+    <!-- Modal de confirmación personalizado -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Confirmar Eliminación
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="mb-3">
+                        <i class="fas fa-trash-alt fa-3x text-danger mb-3"></i>
+                    </div>
+                    <h5 class="mb-3">¿Estás seguro?</h5>
+                    <p id="confirmDeleteMessage" class="text-muted">Esta acción no se puede deshacer.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                        <i class="fas fa-trash-alt me-2"></i>Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/invoice-processes.js') }}"></script>
     <script>
         const nextNumber = '{{ $nextNumber }}'; // Número que será asignado
+
+        // Función para confirmación personalizada
+        function showConfirm(message, callback) {
+            const modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+            const messageElement = document.getElementById('confirmDeleteMessage');
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+            let confirmed = false;
+            
+            messageElement.textContent = message;
+            
+            // Limpiar eventos previos
+            const newConfirmBtn = confirmBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+            
+            newConfirmBtn.addEventListener('click', function() {
+                confirmed = true;
+                modal.hide();
+            });
+            
+            // Ejecutar callback al cerrar
+            const modalElement = document.getElementById('confirmDeleteModal');
+            modalElement.addEventListener('hidden.bs.modal', function() {
+                if (callback) callback(confirmed);
+                confirmed = false;
+            }, { once: true });
+            
+            modal.show();
+        }
+
+        // Función para mostrar notificaciones toast
+        function showToast(message, type = 'error') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast-custom ${type} mb-3`;
+            
+            const icons = {
+                'error': 'fa-exclamation-circle',
+                'success': 'fa-check-circle',
+                'warning': 'fa-exclamation-triangle',
+                'info': 'fa-info-circle'
+            };
+            
+            const colors = {
+                'error': '#dc3545',
+                'success': '#28a745',
+                'warning': '#ffc107',
+                'info': '#17a2b8'
+            };
+            
+            toast.innerHTML = `
+                <div class="toast-header-custom" style="color: ${colors[type]};">
+                    <i class="fas ${icons[type]}"></i>
+                    <span>${type === 'error' ? 'Error' : type === 'success' ? 'Éxito' : type === 'warning' ? 'Advertencia' : 'Información'}</span>
+                    <button type="button" class="btn-close ms-auto" onclick="this.parentElement.parentElement.remove()"></button>
+                </div>
+                <div class="toast-body-custom">
+                    ${message}
+                </div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Auto remover después de 5 segundos
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.style.animation = 'slideInRight 0.3s ease reverse';
+                    setTimeout(() => toast.remove(), 300);
+                }
+            }, 5000);
+        }
 
         // Sincronizar campos del header con campos ocultos
         document.addEventListener('DOMContentLoaded', function() {
@@ -511,6 +753,7 @@
             const STORAGE_KEY_COLORS = 'customColors';
             const colorSelect = document.getElementById('header_color_select');
             const addColorBtn = document.getElementById('btn_add_color');
+            const deleteColorBtn = document.getElementById('btn_delete_color');
 
             function loadColors() {
                 try {
@@ -524,6 +767,13 @@
 
             function saveColors(colors) {
                 localStorage.setItem(STORAGE_KEY_COLORS, JSON.stringify(colors));
+            }
+
+            function updateDeleteColorButton() {
+                const current = colorSelect.value;
+                const colors = loadColors();
+                const canDelete = current && colors.includes(current);
+                deleteColorBtn.style.display = canDelete ? 'block' : 'none';
             }
 
             function renderColorOptions(selectedValue = '') {
@@ -550,6 +800,7 @@
                 // Propagar al hidden
                 const hiddenColor = document.getElementById('hidden_color');
                 hiddenColor.value = colorSelect.value;
+                updateDeleteColorButton();
             }
 
             function addNewColor() {
@@ -605,13 +856,36 @@
             renderColorOptions('');
             colorSelect.addEventListener('change', () => {
                 document.getElementById('hidden_color').value = colorSelect.value;
+                updateDeleteColorButton();
             });
             addColorBtn.addEventListener('click', addNewColor);
+            deleteColorBtn.addEventListener('click', function() {
+                const current = colorSelect.value;
+                if (!current) {
+                    showToast('Seleccione un color para eliminar.', 'warning');
+                    return;
+                }
+                const colors = loadColors();
+                if (!colors.includes(current)) {
+                    showToast('Solo se pueden eliminar colores agregados por el usuario.', 'warning');
+                    return;
+                }
+                showConfirm('¿Eliminar el color "' + current + '"?', function(confirmed) {
+                    if (confirmed) {
+                        const updated = colors.filter(c => c !== current);
+                        saveColors(updated);
+                        renderColorOptions('');
+                        colorSelect.dispatchEvent(new Event('change'));
+                        showToast('Color eliminado exitosamente.', 'success');
+                    }
+                });
+            });
 
             // Gestionar referencias personalizadas con localStorage
             const STORAGE_KEY_REFS = 'customRefs';
             const refSelect = document.getElementById('header_ref_select');
             const addRefBtn = document.getElementById('btn_add_ref');
+            const deleteRefBtn = document.getElementById('btn_delete_ref');
 
             function loadRefs() {
                 try {
@@ -625,6 +899,13 @@
 
             function saveRefs(refs) {
                 localStorage.setItem(STORAGE_KEY_REFS, JSON.stringify(refs));
+            }
+
+            function updateDeleteRefButton() {
+                const current = refSelect.value;
+                const refs = loadRefs();
+                const canDelete = current && refs.includes(current);
+                deleteRefBtn.style.display = canDelete ? 'block' : 'none';
             }
 
             function renderRefOptions(selectedValue = '') {
@@ -646,6 +927,7 @@
                     refSelect.value = selectedValue;
                 }
                 document.getElementById('hidden_cod_referencia').value = refSelect.value;
+                updateDeleteRefButton();
             }
 
             function addNewRef() {
@@ -701,8 +983,30 @@
             renderRefOptions('');
             refSelect.addEventListener('change', () => {
                 document.getElementById('hidden_cod_referencia').value = refSelect.value;
+                updateDeleteRefButton();
             });
             addRefBtn.addEventListener('click', addNewRef);
+            deleteRefBtn.addEventListener('click', function() {
+                const current = refSelect.value;
+                if (!current) {
+                    showToast('Seleccione una referencia para eliminar.', 'warning');
+                    return;
+                }
+                const refs = loadRefs();
+                if (!refs.includes(current)) {
+                    showToast('Solo se pueden eliminar referencias agregadas por el usuario.', 'warning');
+                    return;
+                }
+                showConfirm('¿Eliminar la referencia "' + current + '"?', function(confirmed) {
+                    if (confirmed) {
+                        const updated = refs.filter(r => r !== current);
+                        saveRefs(updated);
+                        renderRefOptions('');
+                        refSelect.dispatchEvent(new Event('change'));
+                        showToast('Referencia eliminada exitosamente.', 'success');
+                    }
+                });
+            });
 
             // Calcular total automáticamente
             const tallaInputs = document.querySelectorAll('.talla-input');
@@ -761,27 +1065,44 @@
             form.addEventListener('submit', function(e) {
                 // Validar campos obligatorios
                 const requiredFields = [
-                    { id: 'header_fecha', name: 'Fecha' },
-                    { id: 'header_ref_select', name: 'Código de Referencia' },
-                    { id: 'header_color_select', name: 'Color' },
-                    { id: 'header_no_tarea', name: 'Nombre del Cliente' },
-                    { id: 'precio_total_input', name: 'Precio Total' }
+                    { id: 'header_fecha', name: 'Fecha', errorId: null },
+                    { id: 'header_ref_select', name: 'Código de Referencia', errorId: 'header_ref_select_error' },
+                    { id: 'header_color_select', name: 'Color', errorId: 'header_color_select_error' },
+                    { id: 'header_no_tarea', name: 'Nombre del Cliente', errorId: 'header_no_tarea_error' },
+                    { id: 'precio_total_input', name: 'Precio Total', errorId: 'precio_total_input_error' }
                 ];
 
                 let hasErrors = false;
+                const errorMessages = [];
+
                 requiredFields.forEach(field => {
                     const element = document.getElementById(field.id);
+                    const errorElement = field.errorId ? document.getElementById(field.errorId) : null;
+                    
                     if (!element.value || element.value.trim() === '') {
                         element.classList.add('is-invalid');
+                        if (errorElement) {
+                            errorElement.style.display = 'block';
+                        }
                         hasErrors = true;
+                        errorMessages.push(field.name);
                     } else {
                         element.classList.remove('is-invalid');
+                        if (errorElement) {
+                            errorElement.style.display = 'none';
+                        }
                     }
                 });
 
                 if (hasErrors) {
                     e.preventDefault();
-                    alert('Por favor, complete todos los campos obligatorios marcados con *');
+                    // Hacer scroll al primer error
+                    const firstError = document.querySelector('.is-invalid');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        firstError.focus();
+                    }
+                    showToast('Por favor, complete todos los campos obligatorios marcados con *.', 'error');
                     return false;
                 }
 

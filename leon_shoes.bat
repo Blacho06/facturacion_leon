@@ -1,16 +1,22 @@
 @echo off
+CLS
 
-REM Cambiar a la carpeta del proyecto
-cd "C:\laragon\www\miapp"
+ECHO Iniciando aplicacion...
 
-REM Iniciar el servidor en segundo plano (oculto)
-start /b php artisan serve >nul 2>&1
+REM --- CONFIGURACION ---
+set "LARAGON_EXE=C:\laragon\laragon.exe"
+set "APP_URL=http://facturacion_pruebas2.test/invoices"
+REM --- FIN DE LA CONFIGURACION ---
 
-REM Esperar 3 segundos para que arranque
-timeout /t 3 >nul
 
-REM Abrir el navegador directamente a la página
-start http://127.0.0.1:8000
+REM Paso 1: Abrir Laragon
+start "" "%LARAGON_EXE%"
 
-REM Cerrar esta ventana automáticamente
+REM Paso 2: Dar un pequeño margen para que los servicios inicien
+timeout /t 5 /nobreak >nul
+
+REM Paso 3: Abrir la URL en el navegador
+start "" "%APP_URL%"
+
+REM Paso 4: Cerrar esta ventana
 exit

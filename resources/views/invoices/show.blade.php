@@ -584,8 +584,9 @@
                         @if(isset($invoice->processes[$index]))
                             @php $process = $invoice->processes[$index]; @endphp
                             <div class="process-item">
-                                <div class="process-header">
-                                    {{ $processName }}
+                                <div class="process-header d-flex justify-content-between align-items-center">
+                                    <span>{{ $processName }}</span>
+                                    <span class="badge bg-secondary">FACTURA: {{ $invoice->numero }}</span>
                                 </div>
                                 <div class="process-info">
                                     <div class="process-field">
